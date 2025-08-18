@@ -14,12 +14,12 @@ function Card({
         "bg-card text-card-foreground flex flex-col " +
         // Ma (negative space) - generous spacing and breathing room
         "gap-6 p-6 " +
-        // Shibui (subtle beauty) - refined borders and shadows
-        "rounded-xl border border-border/50 shadow-soft " +
+        // Wabi-sabi (imperfect beauty) - natural asymmetry and textures
+        "rounded-wabi-card border border-border/50 shadow-wabi-soft wabi-sabi-texture " +
         // Gentle transitions for Seijaku (tranquility)
         "transition-all duration-250 ease-gentle " +
-        // Hover state with subtle elevation
-        "hover:shadow-gentle hover:border-border/70 hover:-translate-y-0.5 " +
+        // Hover state with subtle elevation and natural shadow
+        "hover:shadow-wabi-gentle hover:border-border/70 hover:-translate-y-0.5 " +
         // Dark mode considerations
         "dark:bg-card/50 dark:border-border/30 dark:hover:border-border/50",
         className
@@ -59,7 +59,7 @@ function CardTitle({
       data-slot="card-title"
       className={cn(
         // Japanese typography hierarchy - clean and refined
-        "text-lg font-semibold leading-tight tracking-tight " +
+        "text-lg font-semibold leading-snug tracking-tight " +
         // Subtle color for hierarchy
         "text-foreground " +
         // Smooth transitions
@@ -79,7 +79,7 @@ function CardDescription({
       data-slot="card-description"
       className={cn(
         // Japanese typography - subtle and readable
-        "text-sm text-muted-foreground leading-relaxed " +
+        "text-sm text-muted-foreground leading-relaxed tracking-[0.01em] " +
         // Ma (negative space) - breathing room
         "mt-1 " +
         // Smooth transitions
@@ -110,8 +110,8 @@ function CardContent({
   ...props
 }) {
   return (
-    <div 
-      data-slot="card-content" 
+    <div
+      data-slot="card-content"
       className={cn(
         // Ma (negative space) - no horizontal padding since Card already has padding
         // Vertical rhythm for content flow
@@ -119,8 +119,8 @@ function CardContent({
         // Typography improvements
         "text-sm leading-relaxed",
         className
-      )} 
-      {...props} 
+      )}
+      {...props}
     />
   );
 }

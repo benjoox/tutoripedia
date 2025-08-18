@@ -35,14 +35,14 @@ function TabsList({
         "bg-muted text-muted-foreground inline-flex w-fit items-center justify-center " +
         // Engawa (transitional spaces) - generous padding and minimum touch targets
         "h-12 min-h-[44px] p-2 gap-1 " +
-        // Soft boundaries with gentle rounded corners
-        "rounded-xl " +
+        // Wabi-sabi natural boundaries with subtle asymmetry
+        "rounded-wabi-gentle wabi-sabi-texture " +
         // Smooth transitions for Seijaku (tranquility)
         "transition-all duration-250 ease-gentle " +
-        // Subtle shadow for depth
-        "shadow-xs " +
-        // Hover states with soft interactions
-        "hover:shadow-soft hover:bg-muted/80",
+        // Natural shadow with subtle irregularity
+        "shadow-wabi-soft " +
+        // Hover states with natural interactions
+        "hover:shadow-wabi-gentle hover:bg-muted/80",
         className
       )}
       {...props} />
@@ -57,22 +57,24 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        // Base layout and typography
+        // Base layout and typography with Japanese aesthetics
         "inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap " +
         "text-sm font-medium text-foreground dark:text-muted-foreground " +
+        // Typography with Japanese principles
+        "leading-normal tracking-[0.01em] " +
         // Engawa (transitional spaces) - generous padding and minimum touch targets
         "h-10 min-h-[44px] px-4 py-2.5 " +
-        // Soft boundaries with gentle rounded corners
-        "rounded-lg border border-transparent " +
+        // Wabi-sabi natural boundaries with subtle asymmetry
+        "rounded-wabi-subtle border border-transparent " +
         // Smooth transitions for Seijaku (tranquility)
         "transition-all duration-250 ease-gentle " +
-        // Active state with Japanese-inspired styling
+        // Active state with Wabi-sabi natural styling
         "data-[state=active]:bg-background data-[state=active]:text-foreground " +
-        "data-[state=active]:shadow-soft data-[state=active]:border-border/30 " +
+        "data-[state=active]:shadow-wabi-soft data-[state=active]:border-border/30 " +
         "data-[state=active]:-translate-y-0.5 " +
         "dark:data-[state=active]:bg-input/30 dark:data-[state=active]:border-input " +
-        // Hover states with subtle interactions
-        "hover:bg-background/50 hover:text-foreground hover:shadow-xs " +
+        // Hover states with natural interactions
+        "hover:bg-background/50 hover:text-foreground hover:shadow-wabi-soft " +
         "hover:-translate-y-0.5 " +
         // Focus states with Japanese aesthetics
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +

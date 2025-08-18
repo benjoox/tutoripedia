@@ -14,17 +14,19 @@ function Input({
       className={cn(
         // Base styling with Japanese aesthetics
         "flex w-full min-w-0 bg-transparent text-base outline-none " +
+        // Typography with Japanese principles
+        "leading-normal tracking-[0.01em] " +
         // Ma (negative space) - generous padding and minimum touch targets
         "h-10 px-4 py-2.5 min-h-[44px] " +
-        // Shibui (subtle beauty) - refined borders and shadows
-        "rounded-lg border border-border/60 shadow-xs " +
+        // Wabi-sabi (imperfect beauty) - natural asymmetry and subtle textures
+        "rounded-wabi-subtle border border-border/60 shadow-wabi-soft " +
         // Gentle transitions for Seijaku (tranquility)
         "transition-all duration-250 ease-gentle " +
-        // Focus states with Japanese-inspired styling
-        "focus:border-ring/70 focus:shadow-soft focus:ring-2 focus:ring-ring/10 " +
+        // Focus states with Wabi-sabi natural styling
+        "focus:border-ring/70 focus:shadow-wabi-gentle focus:ring-2 focus:ring-ring/10 " +
         "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 " +
-        // Hover states
-        "hover:border-border/80 hover:shadow-soft " +
+        // Hover states with natural shadows
+        "hover:border-border/80 hover:shadow-wabi-soft " +
         // Placeholder and selection styling
         "placeholder:text-muted-foreground/70 " +
         "selection:bg-accent/20 selection:text-accent-foreground " +

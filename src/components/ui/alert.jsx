@@ -4,13 +4,49 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  // Base styling with Japanese aesthetics
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start " +
+  // Icon styling with proper sizing and positioning
+  "[&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current [&>svg]:shrink-0 " +
+  // Gentle transitions for Seijaku (tranquility)
+  "transition-all duration-250 ease-gentle " +
+  // Subtle shadow for depth
+  "shadow-xs",
   {
     variants: {
       variant: {
-        default: "bg-card text-card-foreground",
+        // Default variant with card styling
+        default: 
+          "bg-card text-card-foreground border-border/50 " +
+          "hover:border-border/70 hover:shadow-soft",
+        
+        // Destructive variant with Japanese-inspired error styling
         destructive:
-          "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
+          "bg-card text-destructive border-destructive/30 " +
+          "[&>svg]:text-destructive " +
+          "*:data-[slot=alert-description]:text-destructive/90 " +
+          "hover:border-destructive/50 hover:shadow-soft",
+        
+        // Success variant with Midori (green) inspiration
+        success:
+          "bg-card text-success border-success/30 " +
+          "[&>svg]:text-success " +
+          "*:data-[slot=alert-description]:text-success/90 " +
+          "hover:border-success/50 hover:shadow-soft",
+        
+        // Warning variant with Daidai-iro (orange) inspiration
+        warning:
+          "bg-card text-warning border-warning/30 " +
+          "[&>svg]:text-warning " +
+          "*:data-[slot=alert-description]:text-warning/90 " +
+          "hover:border-warning/50 hover:shadow-soft",
+        
+        // Info variant with Ai-iro (blue) inspiration
+        info:
+          "bg-card text-info border-info/30 " +
+          "[&>svg]:text-info " +
+          "*:data-[slot=alert-description]:text-info/90 " +
+          "hover:border-info/50 hover:shadow-soft",
       },
     },
     defaultVariants: {
@@ -40,7 +76,7 @@ function AlertTitle({
   return (
     <div
       data-slot="alert-title"
-      className={cn("col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight", className)}
+      className={cn("col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight leading-snug", className)}
       {...props} />
   );
 }
@@ -53,7 +89,7 @@ function AlertDescription({
     <div
       data-slot="alert-description"
       className={cn(
-        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+        "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm leading-relaxed tracking-[0.01em] [&_p]:leading-relaxed",
         className
       )}
       {...props} />

@@ -31,6 +31,12 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -116,12 +122,12 @@
   --muted: #F4F4F5;                         /* Very light gray */
   --muted-foreground: #71717A;             /* Medium gray text */
   
-  /* Accent colors - Ai-iro (indigo blue) inspired */
-  --accent: #4299E1;                        /* Soft blue */
-  --accent-foreground: #F7FAFC;            /* Light text on accent */
+  /* Accent colors - Ai-iro (indigo blue) inspired with better contrast */
+  --accent: #2B77CB;                        /* Darker blue for better contrast */
+  --accent-foreground: #FFFFFF;            /* White text on accent */
   
-  /* Semantic colors */
-  --destructive: #E53E3E;                   /* Error red */
+  /* Semantic colors with improved contrast */
+  --destructive: #C53030;                   /* Darker red for better contrast */
   --destructive-foreground: #FFFFFF;       /* White text on error */
   
   /* Border and input colors */
@@ -129,12 +135,20 @@
   --input: #F7FAFC;                         /* Input background */
   --ring: #4299E1;                          /* Focus ring color */
   
-  /* Chart colors - natural palette */
-  --chart-1: #4299E1;                       /* Blue */
-  --chart-2: #48BB78;                       /* Green */
-  --chart-3: #ED8936;                       /* Orange */
-  --chart-4: #9F7AEA;                       /* Purple */
-  --chart-5: #38B2AC;                       /* Teal */
+  /* Chart colors - natural palette inspired by Japanese aesthetics */
+  --chart-1: #4299E1;                       /* Ai-iro (indigo blue) */
+  --chart-2: #48BB78;                       /* Midori (green) */
+  --chart-3: #ED8936;                       /* Daidai-iro (orange) */
+  --chart-4: #9F7AEA;                       /* Murasaki (purple) */
+  --chart-5: #38B2AC;                       /* Mizu-iro (water blue) */
+  
+  /* Success and warning colors with improved contrast */
+  --success: #2F855A;                       /* Much darker green for better contrast */
+  --success-foreground: #FFFFFF;           /* White text on success */
+  --warning: #C05621;                       /* Much darker orange for better contrast */
+  --warning-foreground: #FFFFFF;           /* White text on warnings */
+  --info: #2B77CB;                          /* Darker blue for better contrast */
+  --info-foreground: #FFFFFF;              /* White text on info */
   
   /* Sidebar colors */
   --sidebar: #FFFFFF;                       /* Sidebar background */
@@ -184,12 +198,20 @@
   --input: #2D3748;                         /* Input background */
   --ring: #63B3ED;                          /* Focus ring color */
   
-  /* Chart colors - adjusted for dark theme */
-  --chart-1: #63B3ED;                       /* Light blue */
-  --chart-2: #68D391;                       /* Light green */
-  --chart-3: #F6AD55;                       /* Light orange */
-  --chart-4: #B794F6;                       /* Light purple */
-  --chart-5: #4FD1C7;                       /* Light teal */
+  /* Chart colors - adjusted for dark theme with Japanese aesthetics */
+  --chart-1: #63B3ED;                       /* Light Ai-iro (indigo blue) */
+  --chart-2: #68D391;                       /* Light Midori (green) */
+  --chart-3: #F6AD55;                       /* Light Daidai-iro (orange) */
+  --chart-4: #B794F6;                       /* Light Murasaki (purple) */
+  --chart-5: #4FD1C7;                       /* Light Mizu-iro (water blue) */
+  
+  /* Success and warning colors for dark theme */
+  --success: #68D391;                       /* Light green for success states */
+  --success-foreground: #1A202C;           /* Dark text on light success */
+  --warning: #F6AD55;                       /* Light orange for warnings */
+  --warning-foreground: #1A202C;           /* Dark text on light warnings */
+  --info: #63B3ED;                          /* Light blue for informational states */
+  --info-foreground: #1A202C;              /* Dark text on light info */
   
   /* Sidebar colors */
   --sidebar: #2D3748;                       /* Dark sidebar */
@@ -219,7 +241,7 @@
     text-rendering: optimizeLegibility;
   }
   
-  /* Body styling with Ma (negative space) principles */
+  /* Body styling with Ma (negative space) and Wabi-sabi principles */
   body {
     @apply bg-background text-foreground;
     /* Japanese typography principles */
@@ -228,6 +250,10 @@
     letter-spacing: 0.01em; /* Subtle letter spacing */
     /* Ensure minimum touch targets (44px) for accessibility */
     min-height: 100vh;
+    /* Wabi-sabi surface texture for natural imperfection */
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.015) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.008) 0%, transparent 50%);
     /* Smooth transitions following Seijaku (tranquility) */
     transition: background-color var(--duration-normal) var(--timing-gentle),
                 color var(--duration-normal) var(--timing-gentle);
@@ -243,12 +269,77 @@
     margin-bottom: var(--space-md);
     /* Smooth color transitions */
     transition: color var(--duration-normal) var(--timing-gentle);
+    /* Scroll margin for anchor links */
+    scroll-margin-top: 2rem;
+  }
+  
+  /* Specific heading sizes following harmonious scale */
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  h4 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  h5 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  
+  h6 {
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    font-weight: 500;
+    letter-spacing: 0;
   }
   
   /* Paragraph spacing following Ma principles */
   p {
     margin-bottom: var(--space-md);
     line-height: var(--leading-relaxed);
+    letter-spacing: 0.01em;
+  }
+  
+  /* Text elements with Japanese aesthetics */
+  small {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    letter-spacing: 0.025em;
+    color: var(--muted-foreground);
+  }
+  
+  /* Strong and emphasis elements */
+  strong, b {
+    font-weight: 600;
+    color: var(--foreground);
+  }
+  
+  em, i {
+    font-style: italic;
+    color: var(--foreground);
   }
   
   /* Interactive elements with minimum 44px touch targets */
@@ -325,6 +416,71 @@
     color: var(--accent-foreground);
   }
   
+  /* Wabi-sabi elements - subtle imperfections and natural textures */
+  .wabi-sabi-texture {
+    position: relative;
+  }
+  
+  .wabi-sabi-texture::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.01) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  
+  .wabi-sabi-subtle-asymmetry {
+    /* Subtle asymmetric border radius for natural imperfection */
+    border-radius: 0.5rem 0.6rem 0.4rem 0.55rem;
+  }
+  
+  .wabi-sabi-gentle-asymmetry {
+    /* More pronounced but still subtle asymmetry */
+    border-radius: 0.75rem 0.9rem 0.6rem 0.8rem;
+  }
+  
+  .wabi-sabi-shadow {
+    /* Natural, slightly irregular shadow */
+    box-shadow: 
+      0 2px 8px 0 rgba(0, 0, 0, 0.08),
+      0 1px 3px 0 rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(0, 0, 0, 0.02);
+  }
+  
+  .wabi-sabi-border {
+    /* Subtle border with natural variation */
+    border: 1px solid;
+    border-color: 
+      var(--border) 
+      rgba(var(--border), 0.9) 
+      rgba(var(--border), 1.1) 
+      rgba(var(--border), 0.95);
+  }
+  
+  .wabi-sabi-surface {
+    /* Subtle surface texture for larger areas */
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.01) 0%, transparent 50%),
+      linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.005) 50%, transparent 100%);
+  }
+  
+  .wabi-sabi-paper {
+    /* Paper-like texture with subtle grain */
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.015) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.008) 0%, transparent 50%),
+      linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.003) 50%, transparent 100%);
+  }
+
   /* Reduced motion for accessibility */
   @media (prefers-reduced-motion: reduce) {
     *,

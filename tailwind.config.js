@@ -40,7 +40,7 @@ export default {
           foreground: '#2D3748',
         },
         
-        // Accent colors - subtle and refined (ai-iro - indigo blue)
+        // Accent colors - subtle and refined (ai-iro - indigo blue) with improved contrast
         accent: {
           50: '#EBF8FF',
           100: '#BEE3F8',
@@ -52,8 +52,8 @@ export default {
           700: '#2C5282',
           800: '#2A4365',
           900: '#1A365D',
-          DEFAULT: '#4299E1',
-          foreground: '#F7FAFC',
+          DEFAULT: '#2B77CB',
+          foreground: '#FFFFFF',
         },
         
         // Neutral colors - natural palette
@@ -81,6 +81,12 @@ export default {
         'muted-foreground': 'var(--muted-foreground)',
         destructive: 'var(--destructive)',
         'destructive-foreground': 'var(--destructive-foreground)',
+        success: 'var(--success)',
+        'success-foreground': 'var(--success-foreground)',
+        warning: 'var(--warning)',
+        'warning-foreground': 'var(--warning-foreground)',
+        info: 'var(--info)',
+        'info-foreground': 'var(--info-foreground)',
         border: 'var(--border)',
         input: 'var(--input)',
         ring: 'var(--ring)',
@@ -110,6 +116,39 @@ export default {
         ],
       },
       
+      // Typography scale with harmonious proportions
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1.25', letterSpacing: '0.025em' }],     // 12px
+        'sm': ['0.875rem', { lineHeight: '1.375', letterSpacing: '0.01em' }],    // 14px
+        'base': ['1rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],        // 16px
+        'lg': ['1.125rem', { lineHeight: '1.5', letterSpacing: '0.005em' }],     // 18px
+        'xl': ['1.25rem', { lineHeight: '1.4', letterSpacing: '0' }],            // 20px
+        '2xl': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }],      // 24px
+        '3xl': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.02em' }],    // 30px
+        '4xl': ['2.25rem', { lineHeight: '1.25', letterSpacing: '-0.02em' }],    // 36px
+        '5xl': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.025em' }],       // 48px
+        '6xl': ['3.75rem', { lineHeight: '1.1', letterSpacing: '-0.025em' }],    // 60px
+      },
+      
+      // Line heights for optimal readability
+      lineHeight: {
+        'tight': '1.25',
+        'snug': '1.375', 
+        'normal': '1.5',
+        'relaxed': '1.625',
+        'loose': '2',
+      },
+      
+      // Letter spacing for Japanese aesthetics
+      letterSpacing: {
+        'tighter': '-0.05em',
+        'tight': '-0.025em',
+        'normal': '0',
+        'wide': '0.025em',
+        'wider': '0.05em',
+        'widest': '0.1em',
+      },
+      
       // Harmonious spacing scale based on 8px grid
       spacing: {
         '0.5': '0.125rem',  // 2px
@@ -137,6 +176,11 @@ export default {
         'xl': '0.75rem',    // 12px
         '2xl': '1rem',      // 16px
         '3xl': '1.5rem',    // 24px
+        // Wabi-sabi inspired asymmetric border radius
+        'wabi-subtle': '0.5rem 0.6rem 0.4rem 0.55rem',
+        'wabi-gentle': '0.75rem 0.9rem 0.6rem 0.8rem',
+        'wabi-card': '0.75rem 0.85rem 0.65rem 0.8rem',
+        'wabi-button': '0.5rem 0.55rem 0.45rem 0.52rem',
       },
       
       // Soft, natural shadows
@@ -153,6 +197,10 @@ export default {
         'soft': '0 2px 8px 0 rgba(0, 0, 0, 0.08)',
         'gentle': '0 4px 12px 0 rgba(0, 0, 0, 0.1)',
         'calm': '0 8px 24px 0 rgba(0, 0, 0, 0.12)',
+        // Wabi-sabi inspired natural shadows with subtle irregularity
+        'wabi-soft': '0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.02)',
+        'wabi-gentle': '0 4px 12px 0 rgba(0, 0, 0, 0.1), 0 2px 6px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        'wabi-elevated': '0 8px 24px 0 rgba(0, 0, 0, 0.12), 0 4px 12px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.04)',
       },
       
       // Animation timing for Seijaku (tranquility)

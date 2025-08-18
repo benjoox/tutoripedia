@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils"
 const buttonVariants = cva(
   // Base styles with Japanese design principles
   "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 " +
+  // Typography with Japanese aesthetics
+  "tracking-wide leading-normal " +
   // Shibui (subtle beauty) - gentle transitions and refined interactions
   "transition-all duration-250 ease-gentle " +
   // Ma (negative space) - generous spacing for breathing room
@@ -19,10 +21,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary - Sumi (charcoal) inspired with soft shadows
+        // Primary - Sumi (charcoal) inspired with Wabi-sabi imperfections
         default:
-          "bg-primary text-primary-foreground rounded-lg shadow-soft " +
-          "hover:bg-primary/90 hover:shadow-gentle hover:-translate-y-0.5 " +
+          "bg-primary text-primary-foreground rounded-wabi-button shadow-wabi-soft " +
+          "hover:bg-primary/90 hover:shadow-wabi-gentle hover:-translate-y-0.5 " +
           "active:translate-y-0 active:shadow-xs " +
           "dark:bg-primary dark:hover:bg-primary/80",
         
@@ -33,18 +35,18 @@ const buttonVariants = cva(
           "active:translate-y-0 active:shadow-xs " +
           "focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/30",
         
-        // Outline - Engawa (transitional spaces) with soft boundaries
+        // Outline - Engawa (transitional spaces) with Wabi-sabi natural boundaries
         outline:
-          "border border-border bg-background text-foreground rounded-lg shadow-xs " +
-          "hover:bg-accent/5 hover:border-accent/20 hover:shadow-soft " +
+          "border border-border bg-background text-foreground rounded-wabi-button shadow-xs " +
+          "hover:bg-accent/5 hover:border-accent/20 hover:shadow-wabi-soft " +
           "hover:text-foreground hover:-translate-y-0.5 " +
           "active:translate-y-0 active:bg-accent/10 active:text-foreground " +
           "dark:bg-background/50 dark:border-border dark:hover:bg-accent/10 dark:hover:text-foreground",
         
-        // Secondary - Hai-iro (ash gray) inspired
+        // Secondary - Hai-iro (ash gray) inspired with natural imperfections
         secondary:
-          "bg-secondary text-secondary-foreground rounded-lg shadow-xs " +
-          "hover:bg-secondary/80 hover:shadow-soft hover:-translate-y-0.5 " +
+          "bg-secondary text-secondary-foreground rounded-wabi-button shadow-wabi-soft " +
+          "hover:bg-secondary/80 hover:shadow-wabi-gentle hover:-translate-y-0.5 " +
           "active:translate-y-0 active:shadow-xs " +
           "dark:bg-secondary/20 dark:hover:bg-secondary/30",
         
@@ -64,13 +66,13 @@ const buttonVariants = cva(
       },
       size: {
         // Default size with Ma (negative space) principles
-        default: "h-10 px-6 py-2.5 text-sm has-[>svg]:px-4",
+        default: "h-10 px-6 py-2.5 text-sm tracking-[0.01em] has-[>svg]:px-4",
         
         // Small size maintaining minimum touch targets
-        sm: "h-9 px-4 py-2 text-sm rounded-md gap-1.5 has-[>svg]:px-3",
+        sm: "h-9 px-4 py-2 text-sm tracking-[0.025em] rounded-md gap-1.5 has-[>svg]:px-3",
         
         // Large size with generous spacing
-        lg: "h-12 px-8 py-3 text-base rounded-xl has-[>svg]:px-6",
+        lg: "h-12 px-8 py-3 text-base tracking-[0.005em] rounded-xl has-[>svg]:px-6",
         
         // Icon size ensuring 44px minimum for accessibility
         icon: "size-10 rounded-lg",
