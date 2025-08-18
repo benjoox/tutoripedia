@@ -36,7 +36,14 @@ function DialogOverlay({
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        // Seijaku (tranquility) overlay with gentle fade
+        "fixed inset-0 z-50 bg-black/50 " +
+        // Gentle entrance and exit animations
+        "data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out " +
+        // Smooth backdrop blur effect
+        "backdrop-blur-sm " +
+        // Wabi-sabi subtle texture
+        "wabi-sabi-texture",
         className
       )}
       {...props} />
@@ -54,13 +61,43 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
+          // Base styling with Japanese aesthetics
+          "bg-background text-foreground fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] " +
+          // Ma (negative space) - generous spacing
+          "gap-6 p-6 " +
+          // Wabi-sabi (imperfect beauty) - natural asymmetry
+          "rounded-wabi-card border border-border/50 shadow-wabi-gentle " +
+          // Seijaku (tranquility) - gentle animations
+          "data-[state=open]:animate-scale-in data-[state=closed]:animate-scale-out " +
+          "seijaku-transition-transform " +
+          // Responsive sizing
+          "sm:max-w-lg " +
+          // Subtle texture
+          "wabi-sabi-texture",
           className
         )}
         {...props}>
         {children}
         <DialogPrimitive.Close
-          className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+          className={cn(
+            // Positioning and sizing
+            "absolute top-4 right-4 " +
+            // Japanese-inspired styling
+            "rounded-wabi-button opacity-70 " +
+            // Seijaku (tranquility) transitions
+            "seijaku-transition-opacity seijaku-hover-lift " +
+            // Interactive states
+            "hover:opacity-100 hover:bg-accent/10 " +
+            // Focus states with gentle ring
+            "focus:ring-2 focus:ring-ring/20 focus:ring-offset-2 focus:outline-none " +
+            "focus-visible:opacity-100 focus-visible:bg-accent/10 " +
+            // Accessibility
+            "disabled:pointer-events-none " +
+            // Icon sizing
+            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
+            // Minimum touch target
+            "min-h-[44px] min-w-[44px] flex items-center justify-center"
+          )}>
           <IconX />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

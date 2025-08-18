@@ -203,19 +203,161 @@ export default {
         'wabi-elevated': '0 8px 24px 0 rgba(0, 0, 0, 0.12), 0 4px 12px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.04)',
       },
       
-      // Animation timing for Seijaku (tranquility)
+      // Animation timing for Seijaku (tranquility) - gentle, natural easing
       transitionTimingFunction: {
-        'gentle': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'soft': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        'calm': 'cubic-bezier(0.23, 1, 0.32, 1)',
+        'gentle': 'cubic-bezier(0.4, 0, 0.2, 1)',           // Gentle ease-out
+        'soft': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',     // Soft, natural curve
+        'calm': 'cubic-bezier(0.23, 1, 0.32, 1)',           // Calm, restful easing
+        'serene': 'cubic-bezier(0.16, 1, 0.3, 1)',          // Serene, flowing motion
+        'peaceful': 'cubic-bezier(0.19, 1, 0.22, 1)',       // Peaceful, smooth transition
+        'tranquil': 'cubic-bezier(0.25, 0.1, 0.25, 1)',     // Tranquil, balanced motion
+        'zen': 'cubic-bezier(0.645, 0.045, 0.355, 1)',      // Zen-like, mindful easing
       },
       
-      // Animation durations
+      // Animation durations for different interaction types
       transitionDuration: {
-        '250': '250ms',
-        '350': '350ms',
-        '400': '400ms',
-        '600': '600ms',
+        '150': '150ms',   // Quick micro-interactions
+        '200': '200ms',   // Fast hover states
+        '250': '250ms',   // Standard transitions
+        '300': '300ms',   // Gentle state changes
+        '350': '350ms',   // Calm transitions
+        '400': '400ms',   // Peaceful animations
+        '500': '500ms',   // Slow, meditative changes
+        '600': '600ms',   // Very slow, contemplative
+        '800': '800ms',   // Ultra-slow for special effects
+        '1000': '1000ms', // Extremely slow, zen-like
+      },
+      
+      // Animation delays for staggered effects
+      transitionDelay: {
+        '50': '50ms',
+        '75': '75ms',
+        '100': '100ms',
+        '150': '150ms',
+        '200': '200ms',
+        '300': '300ms',
+        '500': '500ms',
+        '700': '700ms',
+        '1000': '1000ms',
+      },
+      
+      // Keyframe animations for Seijaku (tranquility)
+      keyframes: {
+        // Gentle fade in/out
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'fade-out': {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        
+        // Soft slide animations
+        'slide-in-up': {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'slide-in-down': {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'slide-in-left': {
+          '0%': { transform: 'translateX(-10px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        'slide-in-right': {
+          '0%': { transform: 'translateX(10px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        
+        // Gentle scale animations
+        'scale-in': {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        'scale-out': {
+          '0%': { transform: 'scale(1)', opacity: '1' },
+          '100%': { transform: 'scale(0.95)', opacity: '0' },
+        },
+        
+        // Breathing animation for subtle life
+        'breathe': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.02)', opacity: '0.95' },
+        },
+        
+        // Gentle pulse for focus states
+        'pulse-gentle': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.8' },
+        },
+        
+        // Soft glow effect
+        'glow-soft': {
+          '0%, 100%': { boxShadow: '0 0 5px rgba(66, 153, 225, 0.2)' },
+          '50%': { boxShadow: '0 0 20px rgba(66, 153, 225, 0.4)' },
+        },
+        
+        // Zen-like floating animation
+        'float': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-2px)' },
+        },
+        
+        // Subtle shimmer effect
+        'shimmer': {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        
+        // Gentle rotation for loading states
+        'spin-gentle': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        
+        // Wabi-sabi inspired irregular pulse
+        'pulse-wabi': {
+          '0%': { transform: 'scale(1)', opacity: '1' },
+          '33%': { transform: 'scale(1.01)', opacity: '0.95' },
+          '66%': { transform: 'scale(1.02)', opacity: '0.9' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+      },
+      
+      // Animation utilities
+      animation: {
+        // Fade animations
+        'fade-in': 'fade-in 300ms ease-calm forwards',
+        'fade-out': 'fade-out 300ms ease-calm forwards',
+        
+        // Slide animations
+        'slide-in-up': 'slide-in-up 400ms ease-serene forwards',
+        'slide-in-down': 'slide-in-down 400ms ease-serene forwards',
+        'slide-in-left': 'slide-in-left 400ms ease-serene forwards',
+        'slide-in-right': 'slide-in-right 400ms ease-serene forwards',
+        
+        // Scale animations
+        'scale-in': 'scale-in 300ms ease-peaceful forwards',
+        'scale-out': 'scale-out 300ms ease-peaceful forwards',
+        
+        // Continuous animations
+        'breathe': 'breathe 4s ease-tranquil infinite',
+        'pulse-gentle': 'pulse-gentle 2s ease-calm infinite',
+        'glow-soft': 'glow-soft 3s ease-serene infinite',
+        'float': 'float 6s ease-zen infinite',
+        'shimmer': 'shimmer 2s ease-gentle infinite',
+        'spin-gentle': 'spin-gentle 2s ease-calm infinite',
+        'pulse-wabi': 'pulse-wabi 5s ease-soft infinite',
+        
+        // Quick micro-interactions
+        'fade-in-fast': 'fade-in 150ms ease-gentle forwards',
+        'scale-in-fast': 'scale-in 200ms ease-soft forwards',
+        
+        // Slow, meditative animations
+        'fade-in-slow': 'fade-in 600ms ease-zen forwards',
+        'scale-in-slow': 'scale-in 800ms ease-tranquil forwards',
       },
     },
   },

@@ -103,11 +103,11 @@ function TabsContent({
         "mt-6 " +
         // Smooth transitions for content changes
         "transition-all duration-350 ease-calm " +
-        // Animation for content appearance
-        "data-[state=active]:animate-in data-[state=active]:fade-in-0 " +
-        "data-[state=active]:slide-in-from-bottom-2 " +
-        "data-[state=inactive]:animate-out data-[state=inactive]:fade-out-0 " +
-        "data-[state=inactive]:slide-out-to-bottom-2",
+        // Seijaku (tranquility) - gentle content transitions
+        "data-[state=active]:animate-fade-in data-[state=active]:animate-slide-in-up " +
+        "data-[state=inactive]:animate-fade-out " +
+        // Entrance animation with stagger
+        "seijaku-enter",
         className
       )}
       {...props} />

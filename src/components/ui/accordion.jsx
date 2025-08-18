@@ -17,7 +17,15 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn("border-b last:border-b-0", className)}
+      className={cn(
+        // Engawa (transitional spaces) - soft boundaries between items
+        "border-b border-border/30 last:border-b-0 " +
+        // Seijaku (tranquility) - gentle transitions
+        "seijaku-transition-colors " +
+        // Hover state with subtle interaction
+        "hover:border-border/50",
+        className
+      )}
       {...props} />
   );
 }
@@ -33,25 +41,30 @@ function AccordionTrigger({
         data-slot="accordion-trigger"
         className={cn(
           // Base layout and typography with Japanese aesthetics
-          "flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium outline-none " +
+          "flex flex-1 items-start justify-between gap-4 text-left text-sm font-medium outline-none " +
+          // Ma (negative space) - generous padding and minimum touch targets
+          "py-4 px-2 min-h-[44px] " +
+          // Wabi-sabi natural boundaries
+          "rounded-wabi-subtle " +
           // Typography with Japanese principles
           "leading-normal tracking-[0.01em] " +
-          // Gentle transitions for Seijaku (tranquility)
-          "transition-all duration-250 ease-gentle " +
+          // Seijaku (tranquility) - gentle transitions
+          "seijaku-transition seijaku-interactive " +
           // Hover states with subtle interactions
-          "hover:underline hover:text-foreground/90 " +
+          "hover:text-foreground/90 hover:bg-accent/5 " +
           // Focus states with Japanese-inspired styling
-          "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] " +
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+          "focus-visible:ring-2 focus-visible:ring-ring/20 focus-visible:bg-accent/5 " +
           // Disabled states
           "disabled:pointer-events-none disabled:opacity-50 " +
-          // Icon rotation animation
+          // Icon rotation animation with Seijaku easing
           "[&[data-state=open]>svg]:rotate-180",
           className
         )}
         {...props}>
         {children}
         <IconChevronDown
-          className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+          className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-350 ease-serene" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
@@ -65,9 +78,23 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm leading-relaxed tracking-[0.01em]"
+      className={cn(
+        // Seijaku (tranquility) - gentle slide animations
+        "data-[state=closed]:animate-slide-out-up data-[state=open]:animate-slide-in-down " +
+        "overflow-hidden " +
+        // Typography with Japanese principles
+        "text-sm leading-relaxed tracking-[0.01em] " +
+        // Smooth transitions
+        "seijaku-transition-opacity"
+      )}
       {...props}>
-      <div className={cn("pt-0 pb-4", className)}>{children}</div>
+      <div className={cn(
+        // Ma (negative space) - generous spacing
+        "pt-0 pb-6 px-2 " +
+        // Seijaku entrance animation
+        "seijaku-enter",
+        className
+      )}>{children}</div>
     </AccordionPrimitive.Content>
   );
 }

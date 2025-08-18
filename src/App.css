@@ -90,12 +90,23 @@
   --timing-gentle: cubic-bezier(0.4, 0, 0.2, 1);
   --timing-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --timing-calm: cubic-bezier(0.23, 1, 0.32, 1);
+  --timing-serene: cubic-bezier(0.16, 1, 0.3, 1);
+  --timing-peaceful: cubic-bezier(0.19, 1, 0.22, 1);
+  --timing-tranquil: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --timing-zen: cubic-bezier(0.645, 0.045, 0.355, 1);
   
-  /* Duration values */
+  /* Duration values for different interaction types */
+  --duration-instant: 100ms;
   --duration-fast: 150ms;
+  --duration-quick: 200ms;
   --duration-normal: 250ms;
+  --duration-gentle: 300ms;
   --duration-slow: 350ms;
-  --duration-slower: 500ms;
+  --duration-calm: 400ms;
+  --duration-peaceful: 500ms;
+  --duration-meditative: 600ms;
+  --duration-zen: 800ms;
+  --duration-contemplative: 1000ms;
 }
 
 /* Light theme - Japanese-inspired color palette */
@@ -481,6 +492,240 @@
       linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.003) 50%, transparent 100%);
   }
 
+  /* Seijaku (tranquility) animation utilities */
+  .seijaku-transition {
+    transition: all var(--duration-normal) var(--timing-gentle);
+  }
+  
+  .seijaku-transition-colors {
+    transition: color var(--duration-normal) var(--timing-gentle),
+                background-color var(--duration-normal) var(--timing-gentle),
+                border-color var(--duration-normal) var(--timing-gentle);
+  }
+  
+  .seijaku-transition-transform {
+    transition: transform var(--duration-gentle) var(--timing-serene),
+                box-shadow var(--duration-gentle) var(--timing-serene);
+  }
+  
+  .seijaku-transition-opacity {
+    transition: opacity var(--duration-normal) var(--timing-calm);
+  }
+  
+  .seijaku-hover-lift {
+    transition: transform var(--duration-gentle) var(--timing-serene),
+                box-shadow var(--duration-gentle) var(--timing-serene);
+  }
+  
+  .seijaku-hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.12);
+  }
+  
+  .seijaku-hover-glow {
+    transition: box-shadow var(--duration-gentle) var(--timing-peaceful);
+  }
+  
+  .seijaku-hover-glow:hover {
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.3);
+  }
+  
+  .seijaku-focus-ring {
+    transition: box-shadow var(--duration-quick) var(--timing-gentle);
+  }
+  
+  .seijaku-focus-ring:focus-visible {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  }
+  
+  /* Staggered animation utilities */
+  .seijaku-stagger-1 { animation-delay: 50ms; }
+  .seijaku-stagger-2 { animation-delay: 100ms; }
+  .seijaku-stagger-3 { animation-delay: 150ms; }
+  .seijaku-stagger-4 { animation-delay: 200ms; }
+  .seijaku-stagger-5 { animation-delay: 250ms; }
+  .seijaku-stagger-6 { animation-delay: 300ms; }
+  
+  /* Breathing animation for subtle life */
+  .seijaku-breathe {
+    animation: breathe 4s var(--timing-tranquil) infinite;
+  }
+  
+  @keyframes breathe {
+    0%, 100% { 
+      transform: scale(1); 
+      opacity: 1; 
+    }
+    50% { 
+      transform: scale(1.02); 
+      opacity: 0.95; 
+    }
+  }
+  
+  /* Gentle pulse for interactive elements */
+  .seijaku-pulse {
+    animation: pulse-gentle 2s var(--timing-calm) infinite;
+  }
+  
+  @keyframes pulse-gentle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  /* Floating animation for cards and elevated elements */
+  .seijaku-float {
+    animation: float 6s var(--timing-zen) infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+  }
+  
+  /* Shimmer effect for loading states */
+  .seijaku-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s var(--timing-gentle) infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  /* Wabi-sabi inspired irregular animations */
+  .seijaku-pulse-wabi {
+    animation: pulse-wabi 5s var(--timing-soft) infinite;
+  }
+  
+  @keyframes pulse-wabi {
+    0% { transform: scale(1); opacity: 1; }
+    33% { transform: scale(1.01); opacity: 0.95; }
+    66% { transform: scale(1.02); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  /* Gentle glow for focus and hover states */
+  .seijaku-glow {
+    transition: box-shadow var(--duration-gentle) var(--timing-peaceful);
+  }
+  
+  .seijaku-glow:hover,
+  .seijaku-glow:focus-visible {
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.3);
+  }
+  
+  /* Soft entrance animations */
+  .seijaku-enter {
+    animation: fade-in-up var(--duration-calm) var(--timing-serene) forwards;
+  }
+  
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Scale entrance with gentle easing */
+  .seijaku-scale-enter {
+    animation: scale-in var(--duration-gentle) var(--timing-peaceful) forwards;
+  }
+  
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Slide animations for panels and modals */
+  .seijaku-slide-in-right {
+    animation: slide-in-right var(--duration-calm) var(--timing-serene) forwards;
+  }
+  
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .seijaku-slide-in-left {
+    animation: slide-in-left var(--duration-calm) var(--timing-serene) forwards;
+  }
+  
+  @keyframes slide-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Gentle rotation for loading indicators */
+  .seijaku-spin {
+    animation: spin-gentle var(--duration-contemplative) var(--timing-calm) infinite;
+  }
+  
+  @keyframes spin-gentle {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Interactive state transitions */
+  .seijaku-interactive {
+    transition: all var(--duration-normal) var(--timing-gentle);
+  }
+  
+  .seijaku-interactive:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .seijaku-interactive:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Color transition utilities */
+  .seijaku-color-shift {
+    transition: color var(--duration-normal) var(--timing-gentle),
+                background-color var(--duration-normal) var(--timing-gentle);
+  }
+  
+  /* Border transition utilities */
+  .seijaku-border-shift {
+    transition: border-color var(--duration-normal) var(--timing-gentle),
+                border-width var(--duration-normal) var(--timing-gentle);
+  }
+  
+  /* Shadow transition utilities */
+  .seijaku-shadow-shift {
+    transition: box-shadow var(--duration-gentle) var(--timing-serene);
+  }
+  
   /* Reduced motion for accessibility */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -490,6 +735,16 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+    
+    /* Disable all custom animations */
+    .seijaku-breathe,
+    .seijaku-pulse,
+    .seijaku-float,
+    .seijaku-shimmer,
+    .seijaku-pulse-wabi,
+    .seijaku-spin {
+      animation: none !important;
     }
   }
 }

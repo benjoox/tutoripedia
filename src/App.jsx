@@ -5,8 +5,10 @@ import { Slider } from '@/components/ui/slider.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.jsx'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion.jsx'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts'
-import { IconChevronRight, IconChevronLeft, IconCalculator, IconTrendingUp, IconClock, IconBook, IconInfoCircle } from '@tabler/icons-react'
+import { IconChevronRight, IconChevronLeft, IconCalculator, IconTrendingUp, IconClock, IconBook, IconInfoCircle, IconSparkles, IconHeart } from '@tabler/icons-react'
 import './App.css'
 
 function App() {
@@ -448,7 +450,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="flex h-screen">
         {/* Sidebar for Controls - Ma (negative space) with generous spacing */}
-        <div className="w-80 bg-white shadow-lg border-r border-gray-200 overflow-y-auto">
+        <div className="w-80 bg-white shadow-lg border-r border-gray-200 overflow-y-auto seijaku-slide-in-left">
           <div className="p-8 space-y-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
               <IconCalculator className="w-6 h-6" />
@@ -551,7 +553,7 @@ function App() {
             </div>
 
             {/* Current Values Display - Ma principles with generous spacing */}
-            <div className="bg-gray-50 p-6 rounded-lg mt-8">
+            <div className="bg-gray-50 p-6 rounded-lg mt-8 seijaku-breathe">
               <h3 className="font-semibold text-gray-800 mb-4">Current Values</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
@@ -591,7 +593,8 @@ function App() {
                   <Button
                     variant={currentPhase === index ? "default" : "outline"}
                     onClick={() => setCurrentPhase(index)}
-                    className="flex items-center gap-3 px-4 py-2.5 min-h-[44px]"
+                    className="flex items-center gap-3 px-4 py-2.5 min-h-[44px] seijaku-interactive"
+                    style={{ animationDelay: `${(index + 1) * 50}ms` }}
                     size="sm"
                   >
                     {phase.icon}
@@ -613,7 +616,7 @@ function App() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="h-full overflow-y-auto pt-0">
-                <div className="space-y-8">
+                <div className="space-y-8 seijaku-enter">
                   {phases[currentPhase].content}
                 </div>
               </CardContent>
@@ -627,7 +630,7 @@ function App() {
                 variant="outline"
                 onClick={() => setCurrentPhase(Math.max(0, currentPhase - 1))}
                 disabled={currentPhase === 0}
-                className="flex items-center gap-3 px-6 py-3 min-h-[44px]"
+                className="flex items-center gap-3 px-6 py-3 min-h-[44px] seijaku-interactive"
                 size="lg"
               >
                 <IconChevronLeft className="w-5 h-5" />
@@ -636,7 +639,7 @@ function App() {
               <Button
                 onClick={() => setCurrentPhase(Math.min(phases.length - 1, currentPhase + 1))}
                 disabled={currentPhase === phases.length - 1}
-                className="flex items-center gap-3 px-6 py-3 min-h-[44px]"
+                className="flex items-center gap-3 px-6 py-3 min-h-[44px] seijaku-interactive seijaku-glow"
                 size="lg"
               >
                 Next Phase
