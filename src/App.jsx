@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts'
-import { ChevronRight, ChevronLeft, Calculator, TrendingUp, Clock, BookOpen, Info } from 'lucide-react'
+import { IconChevronRight, IconChevronLeft, IconCalculator, IconTrendingUp, IconClock, IconBook, IconInfoCircle } from '@tabler/icons-react'
 import './App.css'
 
 function App() {
@@ -116,13 +116,13 @@ function App() {
   const phases = [
     {
       title: "Introduction to Risk-Neutral Pricing and Time (T)",
-      icon: <BookOpen className="w-6 h-6" />,
+      icon: <IconBook className="w-6 h-6" />,
       content: (
         <div className="space-y-6">
           <div className="prose max-w-none">
             <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-400 mb-6">
               <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <Info className="w-5 h-5" />
+                <IconInfoCircle className="w-5 h-5" />
                 What is Risk-Neutral Pricing and Why is it Important?
               </h3>
               <p className="text-base leading-relaxed">
@@ -189,7 +189,7 @@ function App() {
     },
     {
       title: "Time's Role in Stock Price Evolution",
-      icon: <TrendingUp className="w-6 h-6" />,
+      icon: <IconTrendingUp className="w-6 h-6" />,
       content: (
         <div className="space-y-6">
           <div className="prose max-w-none">
@@ -249,7 +249,7 @@ function App() {
     },
     {
       title: "The Lebesgue Integral and Option Pricing",
-      icon: <Calculator className="w-6 h-6" />,
+      icon: <IconCalculator className="w-6 h-6" />,
       content: (
         <div className="space-y-6">
           <div className="prose max-w-none">
@@ -317,13 +317,13 @@ function App() {
     },
     {
       title: "The Impact of Volatility (σ)",
-      icon: <TrendingUp className="w-6 h-6" />,
+      icon: <IconTrendingUp className="w-6 h-6" />,
       content: (
         <div className="space-y-6">
           <div className="prose max-w-none">
             <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-400 mb-6">
               <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
-                <Info className="w-5 h-5" />
+                <IconInfoCircle className="w-5 h-5" />
                 What is Volatility and Why is it Important?
               </h3>
               <p className="text-base leading-relaxed">
@@ -451,7 +451,7 @@ function App() {
         <div className="w-80 bg-white shadow-lg border-r border-gray-200 overflow-y-auto">
           <div className="p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <Calculator className="w-5 h-5" />
+              <IconCalculator className="w-5 h-5" />
               Parameters
             </h2>
             
@@ -597,7 +597,7 @@ function App() {
                     {phase.icon}
                     Phase {index + 1}
                   </Button>
-                  {index < phases.length - 1 && <ChevronRight className="w-4 h-4 text-gray-400 mx-1" />}
+                  {index < phases.length - 1 && <IconChevronRight className="w-4 h-4 text-gray-400 mx-1" />}
                 </div>
               ))}
             </div>
@@ -627,7 +627,7 @@ function App() {
                 disabled={currentPhase === 0}
                 className="flex items-center gap-2"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <IconChevronLeft className="w-4 h-4" />
                 Previous Phase
               </Button>
               <Button
@@ -636,7 +636,7 @@ function App() {
                 className="flex items-center gap-2"
               >
                 Next Phase
-                <ChevronRight className="w-4 h-4" />
+                <IconChevronRight className="w-4 h-4" />
               </Button>
             </div>
           </div>
