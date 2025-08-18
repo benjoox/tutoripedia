@@ -1,25 +1,73 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+/**
+ * Custom hook for handling swipe gestures on mobile
+ */
+function useSwipeGestures(onSwipeLeft, onSwipeRight, enabled = true) {
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = useCallback((e) => {
+    if (!enabled) return;
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }, [enabled]);
+
+  const onTouchMove = useCallback((e) => {
+    if (!enabled) return;
+    setTouchEnd(e.targetTouches[0].clientX);
+  }, [enabled]);
+
+  const onTouchEnd = useCallback(() => {
+    if (!enabled || !touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      onSwipeLeft?.();
+    } else if (isRightSwipe) {
+      onSwipeRight?.();
+    }
+  }, [enabled, touchStart, touchEnd, onSwipeLeft, onSwipeRight, minSwipeDistance]);
+
+  return {
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd
+  };
+}
 
 /**
  * Individual phase button component
  */
-function PhaseButton({ phase, isActive, onClick, size = 'default' }) {
+function PhaseButton({ phase, isActive, onClick, size = 'default', isMobile = false }) {
   return (
     <Button
       variant={isActive ? 'default' : 'outline'}
       size={size}
       onClick={() => onClick(phase.id)}
       className={cn(
-        "transition-all duration-300 whitespace-nowrap",
+        "transition-all duration-300 whitespace-nowrap touch-manipulation",
         isActive && "shadow-md",
-        size === 'sm' && "text-xs px-3 py-2 h-8"
+        size === 'sm' && "text-xs px-3 py-2 h-8",
+        // Enhanced touch targets for mobile
+        isMobile && size === 'sm' && "h-10 px-4 text-sm",
+        isMobile && "active:scale-95"
       )}
     >
       {phase.icon && (
-        <span className="mr-2 flex-shrink-0">
+        <span className={cn(
+          "flex-shrink-0",
+          size === 'sm' ? "mr-1.5" : "mr-2"
+        )}>
           {phase.icon}
         </span>
       )}
@@ -31,11 +79,31 @@ function PhaseButton({ phase, isActive, onClick, size = 'default' }) {
 }
 
 /**
- * Mobile horizontal scroll navigation
+ * Mobile horizontal scroll navigation with swipe gestures
  */
 function MobilePhaseNavigation({ phases, currentPhase, onPhaseChange }) {
   const scrollContainerRef = useRef(null);
   const activeButtonRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Handle swipe gestures for phase switching
+  const handleSwipeLeft = useCallback(() => {
+    if (currentPhase < phases.length - 1) {
+      onPhaseChange(currentPhase + 1);
+    }
+  }, [currentPhase, phases.length, onPhaseChange]);
+
+  const handleSwipeRight = useCallback(() => {
+    if (currentPhase > 0) {
+      onPhaseChange(currentPhase - 1);
+    }
+  }, [currentPhase, onPhaseChange]);
+
+  const swipeHandlers = useSwipeGestures(
+    handleSwipeLeft,
+    handleSwipeRight,
+    !isScrolling // Disable swipe when scrolling
+  );
 
   // Scroll active button into view
   useEffect(() => {
@@ -51,27 +119,78 @@ function MobilePhaseNavigation({ phases, currentPhase, onPhaseChange }) {
     }
   }, [currentPhase]);
 
+  // Handle scroll state for swipe gesture detection
+  const handleScroll = useCallback(() => {
+    setIsScrolling(true);
+    // Debounce scroll end detection
+    const timeoutId = setTimeout(() => setIsScrolling(false), 150);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll, { passive: true });
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, [handleScroll]);
+
   return (
     <div className="lg:hidden">
+      {/* Swipe indicator */}
+      <div className="flex justify-center mb-2">
+        <div className="flex gap-1">
+          {phases.map((_, index) => (
+            <div
+              key={index}
+              className={cn(
+                "w-2 h-1 rounded-full transition-all duration-300",
+                index === currentPhase 
+                  ? "bg-primary w-4" 
+                  : "bg-muted-foreground/30"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Phase buttons with swipe support */}
       <div 
         ref={scrollContainerRef}
-        className="flex gap-2 overflow-x-auto scrollbar-hide px-4 py-2"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex gap-3 overflow-x-auto scrollbar-hide px-4 py-2 overscroll-x-contain"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          scrollSnapType: 'x mandatory'
+        }}
+        {...swipeHandlers}
       >
         {phases.map((phase, index) => (
           <div
             key={phase.id}
             ref={index === currentPhase ? activeButtonRef : null}
+            className="flex-shrink-0"
+            style={{ scrollSnapAlign: 'center' }}
           >
             <PhaseButton
               phase={phase}
               isActive={index === currentPhase}
               onClick={() => onPhaseChange(index)}
               size="sm"
+              isMobile={true}
             />
           </div>
         ))}
       </div>
+
+      {/* Navigation hints */}
+      {phases.length > 3 && (
+        <div className="text-center mt-2">
+          <p className="text-xs text-muted-foreground">
+            Swipe or scroll to navigate phases
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -122,7 +241,7 @@ function DesktopPhaseNavigation({ phases, currentPhase, onPhaseChange }) {
           onClick={() => scroll('left')}
           className="mr-2 flex-shrink-0"
         >
-          <ChevronLeft className="size-4" />
+          <IconChevronLeft className="size-4" />
         </Button>
       )}
       
@@ -138,6 +257,7 @@ function DesktopPhaseNavigation({ phases, currentPhase, onPhaseChange }) {
             phase={phase}
             isActive={index === currentPhase}
             onClick={() => onPhaseChange(index)}
+            isMobile={false}
           />
         ))}
       </div>
@@ -150,7 +270,7 @@ function DesktopPhaseNavigation({ phases, currentPhase, onPhaseChange }) {
           onClick={() => scroll('right')}
           className="ml-2 flex-shrink-0"
         >
-          <ChevronRight className="size-4" />
+          <IconChevronRight className="size-4" />
         </Button>
       )}
     </div>

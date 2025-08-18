@@ -289,6 +289,7 @@ function TutorialPage() {
             calculations={calculations}
             isOpen={sidebarOpen}
             onClose={handleSidebarClose}
+            id="tutorial-sidebar"
           />
         )}
 
@@ -305,10 +306,21 @@ function TutorialPage() {
                 variant="outline"
                 size="sm"
                 onClick={handleSidebarToggle}
-                className="flex items-center gap-2"
+                className={cn(
+                  "flex items-center gap-2 transition-all duration-200",
+                  "touch-manipulation h-12 px-4",
+                  "hover:bg-accent/10 active:scale-95"
+                )}
+                aria-expanded={sidebarOpen}
+                aria-controls="tutorial-sidebar"
               >
                 <IconMenu2 className="w-4 h-4" />
                 Parameters
+                {sidebarOpen && (
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    Tap to close
+                  </span>
+                )}
               </Button>
             </div>
           )}

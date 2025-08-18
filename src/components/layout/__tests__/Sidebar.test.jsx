@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Sidebar from '../Sidebar';
 
 const mockParameters = [
@@ -37,6 +37,18 @@ const mockCalculations = {
 };
 
 describe('Sidebar Component', () => {
+  beforeEach(() => {
+    // Reset window dimensions
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1024,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
   it('renders with parameters', () => {
     const mockOnChange = vi.fn();
     render(
@@ -130,6 +142,14 @@ describe('Sidebar Component', () => {
 
   it('applies mobile drawer styles when not open', () => {
     const mockOnChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
     const { container } = render(
       <Sidebar 
         parameters={mockParameters}
@@ -145,6 +165,14 @@ describe('Sidebar Component', () => {
 
   it('applies mobile drawer styles when open', () => {
     const mockOnChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
     const { container } = render(
       <Sidebar 
         parameters={mockParameters}
@@ -161,6 +189,14 @@ describe('Sidebar Component', () => {
   it('renders close button when onClose is provided', () => {
     const mockOnChange = vi.fn();
     const mockOnClose = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
     render(
       <Sidebar 
         parameters={mockParameters}
@@ -170,13 +206,21 @@ describe('Sidebar Component', () => {
       />
     );
     
-    const closeButton = screen.getByLabelText('Close sidebar');
+    const closeButton = screen.getByLabelText('Close parameters panel');
     expect(closeButton).toBeInTheDocument();
   });
 
   it('calls onClose when close button is clicked', () => {
     const mockOnChange = vi.fn();
     const mockOnClose = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
     render(
       <Sidebar 
         parameters={mockParameters}
@@ -186,10 +230,89 @@ describe('Sidebar Component', () => {
       />
     );
     
-    const closeButton = screen.getByLabelText('Close sidebar');
+    const closeButton = screen.getByLabelText('Close parameters panel');
     fireEvent.click(closeButton);
     
     expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows backdrop on mobile when open', () => {
+    const mockOnChange = vi.fn();
+    const mockOnClose = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <Sidebar 
+        isOpen={true}
+        parameters={mockParameters}
+        values={mockValues}
+        onChange={mockOnChange}
+        onClose={mockOnClose}
+      />
+    );
+    
+    const backdrop = container.querySelector('[aria-hidden="true"]');
+    expect(backdrop).toBeInTheDocument();
+  });
+
+  it('calls onClose when backdrop is clicked', () => {
+    const mockOnChange = vi.fn();
+    const mockOnClose = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <Sidebar 
+        isOpen={true}
+        parameters={mockParameters}
+        values={mockValues}
+        onChange={mockOnChange}
+        onClose={mockOnClose}
+      />
+    );
+    
+    const backdrop = container.querySelector('[aria-hidden="true"]');
+    fireEvent.click(backdrop);
+    
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('has proper accessibility attributes for mobile', () => {
+    const mockOnChange = vi.fn();
+    const mockOnClose = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <Sidebar 
+        isOpen={true}
+        parameters={mockParameters}
+        values={mockValues}
+        onChange={mockOnChange}
+        onClose={mockOnClose}
+      />
+    );
+    
+    const sidebar = container.querySelector('aside');
+    expect(sidebar).toHaveAttribute('role', 'dialog');
+    expect(sidebar).toHaveAttribute('aria-label', 'Tutorial parameters');
+    expect(sidebar).toHaveAttribute('aria-modal', 'true');
   });
 
   it('renders without calculations section when no calculations provided', () => {

@@ -1,6 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area } from 'recharts'
 import { IconBook, IconTrendingUp, IconCalculator, IconInfoCircle } from '@tabler/icons-react'
+import ResponsiveChart from '@/components/charts/ResponsiveChart'
+import MobileTooltip from '@/components/charts/MobileTooltip'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 /**
  * Phase 1: Introduction to Risk-Neutral Pricing and Time (T)
@@ -84,6 +87,7 @@ export const IntroductionPhase = ({ tutorialHook }) => {
  */
 export const StockPriceEvolutionPhase = ({ tutorialHook }) => {
   const { parameters, calculations, chartData } = tutorialHook()
+  const isMobile = useIsMobile()
 
   return (
     <div className="space-y-8">
@@ -115,15 +119,48 @@ export const StockPriceEvolutionPhase = ({ tutorialHook }) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveChart 
+              height={400} 
+              mobileHeight={300}
+              enableTouch={true}
+              className="mb-4"
+            >
               <AreaChart data={chartData.stockPricePDF}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="ST" label={{ value: 'Stock Price at Expiration (ST)', position: 'insideBottom', offset: -5 }} />
-                <YAxis label={{ value: 'Probability Density', angle: -90, position: 'insideLeft' }} />
-                <Tooltip formatter={(value, name) => [value.toFixed(4), name === 'normalizedDensity' ? 'Density (×100)' : name]} />
-                <Area type="monotone" dataKey="normalizedDensity" stroke="hsl(var(--success))" fill="hsl(var(--success))" fillOpacity={0.3} />
+                <CartesianGrid strokeDasharray="3 3" opacity={isMobile ? 0.3 : 0.5} />
+                <XAxis 
+                  dataKey="ST" 
+                  label={isMobile ? null : { value: 'Stock Price at Expiration (ST)', position: 'insideBottom', offset: -5 }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  interval={isMobile ? 'preserveStartEnd' : 0}
+                />
+                <YAxis 
+                  label={isMobile ? null : { value: 'Probability Density', angle: -90, position: 'insideLeft' }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 40 : 60}
+                />
+                <Tooltip 
+                  content={<MobileTooltip 
+                    formatter={(value, name) => [value.toFixed(4), name === 'normalizedDensity' ? 'Density (×100)' : name]}
+                  />}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="normalizedDensity" 
+                  stroke="hsl(var(--success))" 
+                  fill="hsl(var(--success))" 
+                  fillOpacity={0.3}
+                  strokeWidth={isMobile ? 2 : 1}
+                />
               </AreaChart>
-            </ResponsiveContainer>
+            </ResponsiveChart>
+            
+            {/* Mobile chart labels */}
+            {isMobile && (
+              <div className="text-center text-xs text-muted-foreground mb-4 space-y-1">
+                <div>X-axis: Stock Price at Expiration (ST)</div>
+                <div>Y-axis: Probability Density</div>
+              </div>
+            )}
             
             <div className="bg-muted p-6 rounded-wabi-card wabi-sabi-texture">
               <p className="text-sm leading-relaxed mb-4 text-foreground">
@@ -148,6 +185,7 @@ export const StockPriceEvolutionPhase = ({ tutorialHook }) => {
  */
 export const LebesgueIntegralPhase = ({ tutorialHook }) => {
   const { parameters, calculations, chartData } = tutorialHook()
+  const isMobile = useIsMobile()
 
   return (
     <div className="space-y-8">
@@ -175,26 +213,59 @@ export const LebesgueIntegralPhase = ({ tutorialHook }) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveChart 
+              height={400} 
+              mobileHeight={300}
+              enableTouch={true}
+              className="mb-4"
+            >
               <LineChart data={chartData.optionPriceData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="days" label={{ value: 'Time to Maturity (Days)', position: 'insideBottom', offset: -5 }} />
-                <YAxis label={{ value: 'Option Price ($)', angle: -90, position: 'insideLeft' }} />
-                <Tooltip formatter={(value, name) => {
-                  if (name === 'optionPrice') return [`${value.toFixed(2)}`, 'Option Price']
-                  return [value, name]
-                }} />
-                <Line type="monotone" dataKey="optionPrice" stroke="hsl(var(--primary))" strokeWidth={2} />
+                <CartesianGrid strokeDasharray="3 3" opacity={isMobile ? 0.3 : 0.5} />
+                <XAxis 
+                  dataKey="days" 
+                  label={isMobile ? null : { value: 'Time to Maturity (Days)', position: 'insideBottom', offset: -5 }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  interval={isMobile ? 'preserveStartEnd' : 0}
+                />
+                <YAxis 
+                  label={isMobile ? null : { value: 'Option Price ($)', angle: -90, position: 'insideLeft' }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 50 : 60}
+                />
+                <Tooltip 
+                  content={<MobileTooltip 
+                    formatter={(value, name) => {
+                      if (name === 'optionPrice') return [`$${value.toFixed(2)}`, 'Option Price']
+                      return [value, name]
+                    }}
+                  />}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="optionPrice" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={isMobile ? 3 : 2}
+                  dot={isMobile ? false : true}
+                  dotSize={isMobile ? 0 : 4}
+                />
                 <Line 
                   type="monotone" 
                   dataKey={() => calculations.optionPrice} 
                   stroke="hsl(var(--destructive))" 
-                  strokeWidth={3}
+                  strokeWidth={isMobile ? 4 : 3}
                   strokeDasharray="5 5"
                   dot={false}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveChart>
+            
+            {/* Mobile chart labels */}
+            {isMobile && (
+              <div className="text-center text-xs text-muted-foreground mb-4 space-y-1">
+                <div>X-axis: Time to Maturity (Days)</div>
+                <div>Y-axis: Option Price ($)</div>
+              </div>
+            )}
             
             <div className="bg-accent/10 p-6 rounded-wabi-card wabi-sabi-texture">
               <p className="text-sm leading-relaxed mb-4 text-foreground">
@@ -220,6 +291,7 @@ export const LebesgueIntegralPhase = ({ tutorialHook }) => {
  */
 export const VolatilityImpactPhase = ({ tutorialHook }) => {
   const { parameters, calculations, chartData } = tutorialHook()
+  const isMobile = useIsMobile()
 
   return (
     <div className="space-y-8">
@@ -271,15 +343,48 @@ export const VolatilityImpactPhase = ({ tutorialHook }) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveChart 
+              height={400} 
+              mobileHeight={300}
+              enableTouch={true}
+              className="mb-4"
+            >
               <AreaChart data={chartData.stockPricePDF}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="ST" label={{ value: 'Stock Price at Expiration (ST)', position: 'insideBottom', offset: -5 }} />
-                <YAxis label={{ value: 'Probability Density', angle: -90, position: 'insideLeft' }} />
-                <Tooltip formatter={(value, name) => [value.toFixed(4), name === 'normalizedDensity' ? 'Density (×100)' : name]} />
-                <Area type="monotone" dataKey="normalizedDensity" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
+                <CartesianGrid strokeDasharray="3 3" opacity={isMobile ? 0.3 : 0.5} />
+                <XAxis 
+                  dataKey="ST" 
+                  label={isMobile ? null : { value: 'Stock Price at Expiration (ST)', position: 'insideBottom', offset: -5 }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  interval={isMobile ? 'preserveStartEnd' : 0}
+                />
+                <YAxis 
+                  label={isMobile ? null : { value: 'Probability Density', angle: -90, position: 'insideLeft' }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 40 : 60}
+                />
+                <Tooltip 
+                  content={<MobileTooltip 
+                    formatter={(value, name) => [value.toFixed(4), name === 'normalizedDensity' ? 'Density (×100)' : name]}
+                  />}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="normalizedDensity" 
+                  stroke="hsl(var(--primary))" 
+                  fill="hsl(var(--primary))" 
+                  fillOpacity={0.3}
+                  strokeWidth={isMobile ? 2 : 1}
+                />
               </AreaChart>
-            </ResponsiveContainer>
+            </ResponsiveChart>
+            
+            {/* Mobile chart labels */}
+            {isMobile && (
+              <div className="text-center text-xs text-muted-foreground mb-4 space-y-1">
+                <div>X-axis: Stock Price at Expiration (ST)</div>
+                <div>Y-axis: Probability Density</div>
+              </div>
+            )}
             
             <div className="bg-muted p-4 rounded-wabi-card wabi-sabi-texture">
               <p className="text-sm text-foreground">
@@ -305,27 +410,60 @@ export const VolatilityImpactPhase = ({ tutorialHook }) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveChart 
+              height={400} 
+              mobileHeight={300}
+              enableTouch={true}
+              className="mb-4"
+            >
               <LineChart data={chartData.volatilityPriceData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="volatility" label={{ value: 'Volatility (%)', position: 'insideBottom', offset: -5 }} />
-                <YAxis label={{ value: 'Option Price ($)', angle: -90, position: 'insideLeft' }} />
-                <Tooltip formatter={(value, name) => {
-                  if (name === 'optionPrice') return [`${value.toFixed(2)}`, 'Option Price']
-                  if (name === 'volatility') return [`${value.toFixed(1)}%`, 'Volatility']
-                  return [value, name]
-                }} />
-                <Line type="monotone" dataKey="optionPrice" stroke="hsl(var(--primary))" strokeWidth={2} />
+                <CartesianGrid strokeDasharray="3 3" opacity={isMobile ? 0.3 : 0.5} />
+                <XAxis 
+                  dataKey="volatility" 
+                  label={isMobile ? null : { value: 'Volatility (%)', position: 'insideBottom', offset: -5 }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  interval={isMobile ? 'preserveStartEnd' : 0}
+                />
+                <YAxis 
+                  label={isMobile ? null : { value: 'Option Price ($)', angle: -90, position: 'insideLeft' }}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
+                  width={isMobile ? 50 : 60}
+                />
+                <Tooltip 
+                  content={<MobileTooltip 
+                    formatter={(value, name) => {
+                      if (name === 'optionPrice') return [`$${value.toFixed(2)}`, 'Option Price']
+                      if (name === 'volatility') return [`${value.toFixed(1)}%`, 'Volatility']
+                      return [value, name]
+                    }}
+                  />}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="optionPrice" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={isMobile ? 3 : 2}
+                  dot={isMobile ? false : true}
+                  dotSize={isMobile ? 0 : 4}
+                />
                 <Line 
                   type="monotone" 
                   dataKey={() => calculations.optionPrice} 
                   stroke="hsl(var(--destructive))" 
-                  strokeWidth={3}
+                  strokeWidth={isMobile ? 4 : 3}
                   strokeDasharray="5 5"
                   dot={false}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveChart>
+            
+            {/* Mobile chart labels */}
+            {isMobile && (
+              <div className="text-center text-xs text-muted-foreground mb-4 space-y-1">
+                <div>X-axis: Volatility (%)</div>
+                <div>Y-axis: Option Price ($)</div>
+              </div>
+            )}
             
             <div className="bg-primary/10 p-4 rounded-wabi-card wabi-sabi-texture">
               <p className="text-sm text-foreground">

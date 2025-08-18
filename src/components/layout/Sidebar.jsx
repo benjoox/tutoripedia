@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 /**
  * Parameter control component for sliders and inputs
  */
-function ParameterControl({ parameter, value, onChange }) {
+function ParameterControl({ parameter, value, onChange, isMobile = false }) {
   const { key, label, type, min, max, step, unit, formatter, description } = parameter;
 
   const handleSliderChange = (newValue) => {
@@ -44,7 +45,13 @@ function ParameterControl({ parameter, value, onChange }) {
             step={step}
             value={[value]}
             onValueChange={handleSliderChange}
-            className="w-full"
+            className={cn(
+              "w-full",
+              // Enhanced touch targets for mobile
+              isMobile && "[&_[role=slider]]:h-6 [&_[role=slider]]:w-6",
+              isMobile && "[&_.slider-track]:h-2",
+              isMobile && "touch-manipulation"
+            )}
           />
           {(min !== undefined && max !== undefined) && (
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -64,7 +71,12 @@ function ParameterControl({ parameter, value, onChange }) {
           min={min}
           max={max}
           step={step}
-          className="w-full"
+          className={cn(
+            "w-full",
+            // Enhanced touch targets for mobile
+            isMobile && "h-12 text-base",
+            "touch-manipulation"
+          )}
         />
       )}
       
@@ -116,6 +128,87 @@ function CurrentValuesSection({ calculations }) {
 }
 
 /**
+ * Custom hook for handling touch gestures on mobile sidebar
+ */
+function useSidebarGestures(isOpen, onClose, sidebarRef) {
+  const isMobile = useIsMobile();
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragCurrentX, setDragCurrentX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+
+  useEffect(() => {
+    if (!isMobile || !sidebarRef.current) return;
+
+    const sidebar = sidebarRef.current;
+    let startX = 0;
+    let currentX = 0;
+    let initialOffset = 0;
+
+    const handleTouchStart = (e) => {
+      if (!isOpen) return;
+      
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      initialOffset = 0;
+      setIsDragging(true);
+      setDragStartX(startX);
+      setDragCurrentX(currentX);
+      setDragOffset(0);
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDragging || !isOpen) return;
+      
+      currentX = e.touches[0].clientX;
+      const deltaX = currentX - startX;
+      
+      // Only allow dragging to the left (closing direction)
+      if (deltaX < 0) {
+        const offset = Math.max(deltaX, -320); // Max drag distance
+        setDragCurrentX(currentX);
+        setDragOffset(offset);
+        
+        // Apply transform during drag
+        sidebar.style.transform = `translateX(${offset}px)`;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      if (!isDragging || !isOpen) return;
+      
+      const deltaX = dragCurrentX - dragStartX;
+      const threshold = -80; // Threshold for closing
+      
+      // Reset transform
+      sidebar.style.transform = '';
+      
+      if (deltaX < threshold) {
+        // Close sidebar if dragged far enough
+        onClose?.();
+      }
+      
+      setIsDragging(false);
+      setDragStartX(0);
+      setDragCurrentX(0);
+      setDragOffset(0);
+    };
+
+    sidebar.addEventListener('touchstart', handleTouchStart, { passive: true });
+    sidebar.addEventListener('touchmove', handleTouchMove, { passive: true });
+    sidebar.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      sidebar.removeEventListener('touchstart', handleTouchStart);
+      sidebar.removeEventListener('touchmove', handleTouchMove);
+      sidebar.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isMobile, isOpen, onClose, isDragging, dragStartX, dragCurrentX]);
+
+  return { isDragging, dragOffset };
+}
+
+/**
  * Sidebar component with parameter controls
  * @param {Object} props
  * @param {Array} props.parameters - Array of parameter definitions
@@ -135,38 +228,93 @@ function Sidebar({
   onClose,
   className 
 }) {
+  const isMobile = useIsMobile();
+  const sidebarRef = useRef(null);
+  const { isDragging, dragOffset } = useSidebarGestures(isOpen, onClose, sidebarRef);
+
+  // Handle escape key to close sidebar on mobile
+  useEffect(() => {
+    if (!isMobile || !isOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isMobile, isOpen, onClose]);
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (!isMobile) return;
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobile, isOpen]);
+
   return (
     <>
       {/* Mobile backdrop */}
-      {isOpen && (
+      {isMobile && isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className={cn(
+            "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300",
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
       
       {/* Sidebar */}
-      <aside className={cn(
-        // Base styles
-        "bg-background border-r border-border/50",
-        // Desktop: fixed sidebar
-        "lg:fixed lg:left-0 lg:top-0 lg:h-full lg:w-80 lg:translate-x-0",
-        // Mobile: drawer behavior
-        "fixed left-0 top-0 h-full w-80 z-50 transition-transform duration-300 ease-in-out lg:z-auto",
-        isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-        className
-      )}>
+      <aside 
+        ref={sidebarRef}
+        className={cn(
+          // Base styles
+          "bg-background border-r border-border/50",
+          // Desktop: fixed sidebar
+          "lg:fixed lg:left-0 lg:top-0 lg:h-full lg:w-80 lg:translate-x-0 lg:shadow-none",
+          // Mobile: drawer behavior with enhanced animations
+          "fixed left-0 top-0 h-full w-80 z-50 lg:z-auto",
+          "transition-all duration-300 ease-out",
+          "shadow-2xl lg:shadow-none",
+          // Mobile transform states
+          isMobile ? (
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          ) : "translate-x-0",
+          // Dragging state
+          isDragging && "transition-none",
+          className
+        )}
+        role={isMobile ? "dialog" : "complementary"}
+        aria-label="Tutorial parameters"
+        aria-modal={isMobile ? isOpen : undefined}
+      >
         <div className="h-full flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-border/50">
+          <div className="p-4 lg:p-6 border-b border-border/50">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Parameters</h2>
               {/* Close button for mobile */}
-              {onClose && (
+              {isMobile && onClose && (
                 <button
                   onClick={onClose}
-                  className="lg:hidden p-2 hover:bg-accent/10 rounded-md"
-                  aria-label="Close sidebar"
+                  className={cn(
+                    "p-2 hover:bg-accent/10 rounded-md transition-colors",
+                    "touch-manipulation", // Better touch handling
+                    "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  )}
+                  aria-label="Close parameters panel"
+                  type="button"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -174,11 +322,18 @@ function Sidebar({
                 </button>
               )}
             </div>
+            
+            {/* Drag indicator for mobile */}
+            {isMobile && (
+              <div className="flex justify-center mt-2">
+                <div className="w-8 h-1 bg-muted-foreground/30 rounded-full" />
+              </div>
+            )}
           </div>
           
           {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto overscroll-contain">
+            <div className="p-4 lg:p-6 space-y-6">
               {/* Parameter controls */}
               {parameters.length > 0 && (
                 <div className="space-y-6">
@@ -188,6 +343,7 @@ function Sidebar({
                       parameter={parameter}
                       value={values[parameter.key] || 0}
                       onChange={onChange}
+                      isMobile={isMobile}
                     />
                   ))}
                 </div>

@@ -136,10 +136,10 @@ describe('PhaseNavigation Component', () => {
       />
     );
     
-    expect(screen.getByText('📖')).toBeInTheDocument();
-    expect(screen.getByText('🧮')).toBeInTheDocument();
-    expect(screen.getByText('⚡')).toBeInTheDocument();
-    expect(screen.getByText('🎯')).toBeInTheDocument();
+    expect(screen.getAllByText('📖')).toHaveLength(2); // Mobile and desktop
+    expect(screen.getAllByText('🧮')).toHaveLength(2);
+    expect(screen.getAllByText('⚡')).toHaveLength(2);
+    expect(screen.getAllByText('🎯')).toHaveLength(2);
   });
 
   it('applies custom className', () => {
@@ -172,7 +172,210 @@ describe('PhaseNavigation Component', () => {
       />
     );
     
-    expect(screen.getByText('Phase 1')).toBeInTheDocument();
-    expect(screen.getByText('Phase 2')).toBeInTheDocument();
+    expect(screen.getAllByText('Phase 1')).toHaveLength(2); // Mobile and desktop
+    expect(screen.getAllByText('Phase 2')).toHaveLength(2);
+  });
+
+  it('shows phase indicators on mobile', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={1}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    // Should show phase indicators (dots) - one active indicator has different classes
+    const indicators = container.querySelectorAll('.h-1.rounded-full');
+    expect(indicators).toHaveLength(mockPhases.length);
+  });
+
+  it('shows navigation hints on mobile when many phases', () => {
+    const manyPhases = [
+      ...mockPhases,
+      { id: 'extra1', title: 'Extra Phase 1', shortTitle: 'Extra1' },
+      { id: 'extra2', title: 'Extra Phase 2', shortTitle: 'Extra2' }
+    ];
+    
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    render(
+      <PhaseNavigation 
+        phases={manyPhases}
+        currentPhase={0}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    expect(screen.getByText('Swipe or scroll to navigate phases')).toBeInTheDocument();
+  });
+
+  it('uses short titles on mobile', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={0}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    // Should show short titles on mobile
+    expect(screen.getByText('Intro')).toBeInTheDocument();
+    expect(screen.getByText('Theory')).toBeInTheDocument();
+    expect(screen.getByText('Practice')).toBeInTheDocument();
+    expect(screen.getByText('End')).toBeInTheDocument();
+  });
+
+  it('handles touch events for swipe gestures', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={1}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    const scrollContainer = container.querySelector('.overflow-x-auto');
+    
+    // Simulate swipe left (next phase)
+    fireEvent.touchStart(scrollContainer, {
+      targetTouches: [{ clientX: 200 }]
+    });
+    fireEvent.touchMove(scrollContainer, {
+      targetTouches: [{ clientX: 100 }]
+    });
+    fireEvent.touchEnd(scrollContainer);
+    
+    expect(mockOnPhaseChange).toHaveBeenCalledWith(2);
+  });
+
+  it('handles swipe right for previous phase', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={2}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    const scrollContainer = container.querySelector('.overflow-x-auto');
+    
+    // Simulate swipe right (previous phase)
+    fireEvent.touchStart(scrollContainer, {
+      targetTouches: [{ clientX: 100 }]
+    });
+    fireEvent.touchMove(scrollContainer, {
+      targetTouches: [{ clientX: 200 }]
+    });
+    fireEvent.touchEnd(scrollContainer);
+    
+    expect(mockOnPhaseChange).toHaveBeenCalledWith(1);
+  });
+
+  it('does not swipe beyond first phase', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={0}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    const scrollContainer = container.querySelector('.overflow-x-auto');
+    
+    // Simulate swipe right at first phase
+    fireEvent.touchStart(scrollContainer, {
+      targetTouches: [{ clientX: 100 }]
+    });
+    fireEvent.touchMove(scrollContainer, {
+      targetTouches: [{ clientX: 200 }]
+    });
+    fireEvent.touchEnd(scrollContainer);
+    
+    expect(mockOnPhaseChange).not.toHaveBeenCalled();
+  });
+
+  it('does not swipe beyond last phase', () => {
+    const mockOnPhaseChange = vi.fn();
+    
+    // Mock mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+    
+    const { container } = render(
+      <PhaseNavigation 
+        phases={mockPhases}
+        currentPhase={mockPhases.length - 1}
+        onPhaseChange={mockOnPhaseChange}
+      />
+    );
+    
+    const scrollContainer = container.querySelector('.overflow-x-auto');
+    
+    // Simulate swipe left at last phase
+    fireEvent.touchStart(scrollContainer, {
+      targetTouches: [{ clientX: 200 }]
+    });
+    fireEvent.touchMove(scrollContainer, {
+      targetTouches: [{ clientX: 100 }]
+    });
+    fireEvent.touchEnd(scrollContainer);
+    
+    expect(mockOnPhaseChange).not.toHaveBeenCalled();
   });
 });
