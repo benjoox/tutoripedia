@@ -33,7 +33,15 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={cn("group flex flex-1 list-none items-center justify-center gap-1", className)}
+      className={cn(
+        // Base layout
+        "group flex flex-1 list-none items-center justify-center " +
+        // Engawa (transitional spaces) - generous spacing between navigation items
+        "gap-3 " +
+        // Smooth transitions for navigation flow
+        "transition-all duration-250 ease-gentle",
+        className
+      )}
       {...props} />
   );
 }
@@ -51,7 +59,26 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
+  // Base styling with Japanese aesthetics
+  "group inline-flex w-max items-center justify-center bg-background text-sm font-medium " +
+  // Engawa (transitional spaces) - generous padding and minimum touch targets
+  "h-11 min-h-[44px] px-6 py-3 gap-2 " +
+  // Soft boundaries with gentle rounded corners
+  "rounded-lg " +
+  // Smooth transitions for Seijaku (tranquility)
+  "transition-all duration-250 ease-gentle " +
+  // Hover states with subtle interactions
+  "hover:bg-accent/10 hover:text-accent-foreground hover:shadow-xs hover:-translate-y-0.5 " +
+  // Focus states with Japanese-inspired styling
+  "focus:bg-accent/10 focus:text-accent-foreground focus:shadow-soft " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+  "focus-visible:ring-2 focus-visible:ring-ring/20 " +
+  // Open states with enhanced styling
+  "data-[state=open]:bg-accent/15 data-[state=open]:text-accent-foreground " +
+  "data-[state=open]:shadow-soft data-[state=open]:-translate-y-0.5 " +
+  "data-[state=open]:hover:bg-accent/20 data-[state=open]:focus:bg-accent/20 " +
+  // Disabled states
+  "disabled:pointer-events-none disabled:opacity-50"
 )
 
 function NavigationMenuTrigger({
@@ -114,7 +141,27 @@ function NavigationMenuLink({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "data-[active=true]:focus:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
+        // Base layout and typography
+        "flex flex-col text-sm outline-none " +
+        // Engawa (transitional spaces) - generous spacing and minimum touch targets
+        "gap-2 p-4 min-h-[44px] " +
+        // Soft boundaries with gentle rounded corners
+        "rounded-lg " +
+        // Smooth transitions for Seijaku (tranquility)
+        "transition-all duration-250 ease-gentle " +
+        // Hover states with subtle interactions
+        "hover:bg-accent/10 hover:text-accent-foreground hover:shadow-xs hover:-translate-y-0.5 " +
+        // Focus states with Japanese-inspired styling
+        "focus:bg-accent/10 focus:text-accent-foreground focus:shadow-soft " +
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+        "focus-visible:ring-2 focus-visible:ring-ring/20 " +
+        // Active states with enhanced styling
+        "data-[active=true]:bg-accent/15 data-[active=true]:text-accent-foreground " +
+        "data-[active=true]:shadow-soft data-[active=true]:-translate-y-0.5 " +
+        "data-[active=true]:hover:bg-accent/20 data-[active=true]:focus:bg-accent/20 " +
+        // Icon styling
+        "[&_svg:not([class*='text-'])]:text-muted-foreground " +
+        "[&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props} />

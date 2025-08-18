@@ -118,9 +118,9 @@ function App() {
       title: "Introduction to Risk-Neutral Pricing and Time (T)",
       icon: <IconBook className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="prose max-w-none">
-            <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-400 mb-6">
+            <div className="bg-blue-50 p-8 rounded-lg border-l-4 border-blue-400 mb-8">
               <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
                 <IconInfoCircle className="w-5 h-5" />
                 What is Risk-Neutral Pricing and Why is it Important?
@@ -139,45 +139,45 @@ function App() {
               </p>
             </div>
             
-            <h3 className="text-xl font-semibold mb-4">The Core Formula</h3>
-            <p className="text-lg mb-4">
+            <h3 className="text-xl font-semibold mb-6">The Core Formula</h3>
+            <p className="text-lg mb-6 leading-relaxed">
               The price of an option (V) is the <strong>discounted expected value</strong> of its payoff at expiration, 
               calculated under the risk-neutral measure (Q).
             </p>
-            <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400 mb-6">
+            <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-400 mb-8">
               <p className="font-mono text-lg">V = e<sup>-rT</sup> 𝔼<sup>Q</sup>[Φ(S<sub>T</sub>)]</p>
             </div>
             
-            <h3 className="text-xl font-semibold mb-4">Variable Explanations</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-blue-600">V - Option Price</h4>
-                <p className="text-sm">The fair theoretical value of the option that we are trying to calculate (today's price).</p>
+            <h3 className="text-xl font-semibold mb-6">Variable Explanations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-blue-600 mb-3">V - Option Price</h4>
+                <p className="text-sm leading-relaxed">The fair theoretical value of the option that we are trying to calculate (today's price).</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-green-600">e<sup>-rT</sup> - Discount Factor</h4>
-                <p className="text-sm">Discounts future expected payoff back to present value. Depends on risk-free rate (r) and time to maturity (T).</p>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-green-600 mb-3">e<sup>-rT</sup> - Discount Factor</h4>
+                <p className="text-sm leading-relaxed">Discounts future expected payoff back to present value. Depends on risk-free rate (r) and time to maturity (T).</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-purple-600">𝔼<sup>Q</sup> - Risk-Neutral Expectation</h4>
-                <p className="text-sm">Expected value under the risk-neutral measure where all assets earn the risk-free rate.</p>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-purple-600 mb-3">𝔼<sup>Q</sup> - Risk-Neutral Expectation</h4>
+                <p className="text-sm leading-relaxed">Expected value under the risk-neutral measure where all assets earn the risk-free rate.</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-orange-600">Φ(S<sub>T</sub>) - Payoff Function</h4>
-                <p className="text-sm">Value of the option at expiration. For call: max(S<sub>T</sub> - K, 0). For put: max(K - S<sub>T</sub>, 0).</p>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-orange-600 mb-3">Φ(S<sub>T</sub>) - Payoff Function</h4>
+                <p className="text-sm leading-relaxed">Value of the option at expiration. For call: max(S<sub>T</sub> - K, 0). For put: max(K - S<sub>T</sub>, 0).</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-red-600">r - Risk-Free Rate</h4>
-                <p className="text-sm">Theoretical rate of return of an investment with zero risk. Used for discounting future cash flows.</p>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-red-600 mb-3">r - Risk-Free Rate</h4>
+                <p className="text-sm leading-relaxed">Theoretical rate of return of an investment with zero risk. Used for discounting future cash flows.</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-indigo-600">T - Time to Maturity</h4>
-                <p className="text-sm">Remaining time until option expires. Affects both discounting and uncertainty of final stock price.</p>
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="font-semibold text-indigo-600 mb-3">T - Time to Maturity</h4>
+                <p className="text-sm leading-relaxed">Remaining time until option expires. Affects both discounting and uncertainty of final stock price.</p>
               </div>
             </div>
             
-            <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
-              <p className="text-sm">
+            <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-400">
+              <p className="text-sm leading-relaxed">
                 <strong>Why T is Important:</strong> Time to maturity has two key effects:
                 <br />• <strong>Discounting:</strong> Longer T means future payoff is discounted more, reducing present value
                 <br />• <strong>Uncertainty:</strong> Longer T allows more time for stock price movement, increasing option value due to higher probability of favorable outcomes
@@ -191,21 +191,21 @@ function App() {
       title: "Time's Role in Stock Price Evolution",
       icon: <IconTrendingUp className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="prose max-w-none">
-            <p className="text-lg">
+            <p className="text-lg mb-6 leading-relaxed">
               Under the risk-neutral measure, the stock price S<sub>t</sub> follows a <strong>Geometric Brownian Motion</strong>:
             </p>
-            <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+            <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-400 mb-6">
               <p className="font-mono text-lg">dS<sub>t</sub> = rS<sub>t</sub>dt + σS<sub>t</sub>dW<sub>t</sub><sup>Q</sup></p>
             </div>
-            <p>
+            <p className="mb-6 leading-relaxed">
               The solution gives us the stock price at expiration:
             </p>
-            <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+            <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-400 mb-6">
               <p className="font-mono text-lg">S<sub>T</sub> = S<sub>0</sub>e<sup>(r - ½σ²)T + σW<sub>T</sub><sup>Q</sup></sup></p>
             </div>
-            <p>
+            <p className="leading-relaxed">
               Notice how <strong>T</strong> appears in both the drift term and affects the variance of W<sub>T</sub><sup>Q</sup> ~ N(0,T). 
               <strong>The uncertainty increases with time!</strong>
             </p>
@@ -219,7 +219,7 @@ function App() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <ResponsiveContainer width="100%" height={400}>
                   <AreaChart data={calculateStockPricePDF(stockPrice, riskFreeRate, volatility, timeInYears)}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -230,13 +230,13 @@ function App() {
                   </AreaChart>
                 </ResponsiveContainer>
                 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm">
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <p className="text-sm leading-relaxed mb-4">
                     <strong>Key Insight:</strong> As T increases, the distribution becomes wider and flatter, 
                     representing greater uncertainty about the final stock price. This is because the variance 
                     of W<sub>T</sub><sup>Q</sup> is proportional to T.
                   </p>
-                  <p className="text-sm mt-2">
+                  <p className="text-sm leading-relaxed">
                     <strong>Current Setting:</strong> With {timeToMaturity} days to expiration, the stock price distribution 
                     shows the range of possible outcomes. Adjust the time slider in the sidebar to see how the distribution changes.
                   </p>
@@ -251,17 +251,17 @@ function App() {
       title: "The Lebesgue Integral and Option Pricing",
       icon: <IconCalculator className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="prose max-w-none">
-            <p className="text-lg">
+            <p className="text-lg mb-6 leading-relaxed">
               The expectation 𝔼<sup>Q</sup>[Φ(S<sub>T</sub>)] is a <strong>Lebesgue integral</strong>, which for Black-Scholes becomes:
             </p>
-            <div className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">
+            <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-400 mb-6">
               <p className="font-mono text-sm">
                 𝔼<sup>Q</sup>[Φ(S<sub>T</sub>)] = ∫<sub>-∞</sub><sup>∞</sup> Φ(S₀e<sup>(r-½σ²)T+σw</sup>) × (1/√(2πT))e<sup>-w²/(2T)</sup> dw
               </p>
             </div>
-            <p>
+            <p className="leading-relaxed">
               Notice how <strong>T</strong> appears in the density function (1/√(2πT))e<sup>-w²/(2T)</sup>. 
               This represents the probability density of Brownian motion at time T.
             </p>
@@ -297,14 +297,14 @@ function App() {
                   </LineChart>
                 </ResponsiveContainer>
                 
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <p className="text-sm">
+                <div className="bg-blue-50 p-6 rounded-lg">
+                  <p className="text-sm leading-relaxed mb-4">
                     <strong>Mathematical Insight:</strong> The option price is non-linear in T because:
                     <br />• Longer time increases the probability of favorable outcomes (higher S<sub>T</sub>)
                     <br />• But also increases the discount factor (reduces present value)
                     <br />• The balance between these effects creates the curved relationship you see above
                   </p>
-                  <p className="text-sm mt-2">
+                  <p className="text-sm leading-relaxed">
                     <strong>Current Analysis:</strong> With {timeToMaturity} days remaining, the option is worth ${calculateCallOptionPrice(stockPrice, strikePrice, riskFreeRate, volatility, timeInYears).toFixed(2)}. 
                     The red dashed line shows your current position on the time-value curve.
                   </p>
@@ -319,9 +319,9 @@ function App() {
       title: "The Impact of Volatility (σ)",
       icon: <IconTrendingUp className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="prose max-w-none">
-            <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-400 mb-6">
+            <div className="bg-purple-50 p-8 rounded-lg border-l-4 border-purple-400 mb-8">
               <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
                 <IconInfoCircle className="w-5 h-5" />
                 What is Volatility and Why is it Important?
@@ -447,17 +447,17 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="flex h-screen">
-        {/* Sidebar for Controls */}
+        {/* Sidebar for Controls - Ma (negative space) with generous spacing */}
         <div className="w-80 bg-white shadow-lg border-r border-gray-200 overflow-y-auto">
-          <div className="p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <IconCalculator className="w-5 h-5" />
+          <div className="p-8 space-y-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <IconCalculator className="w-6 h-6" />
               Parameters
             </h2>
             
-            {/* Time to Maturity Control */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700">
+            {/* Time to Maturity Control - Ma principles with generous spacing */}
+            <div className="mb-8">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
                 Time to Maturity: {timeToMaturity} days ({(timeToMaturity/30).toFixed(1)} months)
               </Label>
               <Slider
@@ -466,17 +466,17 @@ function App() {
                 max={730} // 2 years
                 min={1}
                 step={1}
-                className="mt-2"
+                className="mt-4 mb-3"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
                 <span>1 day</span>
                 <span>2 years</span>
               </div>
             </div>
 
-            {/* Stock Price Control */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700">
+            {/* Stock Price Control - Ma principles with generous spacing */}
+            <div className="mb-8">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
                 Current Stock Price (S₀): ${stockPrice}
               </Label>
               <Slider
@@ -485,17 +485,17 @@ function App() {
                 max={200}
                 min={50}
                 step={1}
-                className="mt-2"
+                className="mt-4 mb-3"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
                 <span>$50</span>
                 <span>$200</span>
               </div>
             </div>
 
-            {/* Strike Price Control */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700">
+            {/* Strike Price Control - Ma principles with generous spacing */}
+            <div className="mb-8">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
                 Strike Price (K): ${strikePrice}
               </Label>
               <Slider
@@ -504,17 +504,17 @@ function App() {
                 max={200}
                 min={50}
                 step={1}
-                className="mt-2"
+                className="mt-4 mb-3"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
                 <span>$50</span>
                 <span>$200</span>
               </div>
             </div>
 
-            {/* Volatility Control */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700">
+            {/* Volatility Control - Ma principles with generous spacing */}
+            <div className="mb-8">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
                 Volatility (σ): {(volatility * 100).toFixed(1)}%
               </Label>
               <Slider
@@ -523,17 +523,17 @@ function App() {
                 max={0.8}
                 min={0.05}
                 step={0.01}
-                className="mt-2"
+                className="mt-4 mb-3"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
                 <span>5%</span>
                 <span>80%</span>
               </div>
             </div>
 
-            {/* Risk-free Rate Control */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700">
+            {/* Risk-free Rate Control - Ma principles with generous spacing */}
+            <div className="mb-8">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
                 Risk-free Rate (r): {(riskFreeRate * 100).toFixed(1)}%
               </Label>
               <Slider
@@ -542,18 +542,18 @@ function App() {
                 max={0.15}
                 min={0.001}
                 step={0.001}
-                className="mt-2"
+                className="mt-4 mb-3"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
                 <span>0.1%</span>
                 <span>15%</span>
               </div>
             </div>
 
-            {/* Current Values Display */}
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-800 mb-2">Current Values</h3>
-              <div className="space-y-2 text-sm">
+            {/* Current Values Display - Ma principles with generous spacing */}
+            <div className="bg-gray-50 p-6 rounded-lg mt-8">
+              <h3 className="font-semibold text-gray-800 mb-4">Current Values</h3>
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span>Discount Factor:</span>
                   <span className="font-mono">{calculateDiscountFactor(riskFreeRate, timeInYears).toFixed(4)}</span>
@@ -575,68 +575,72 @@ function App() {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="bg-white shadow-sm border-b border-gray-200 p-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          {/* Header - Ma principles with generous spacing */}
+          <div className="bg-white shadow-sm border-b border-gray-200 p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
               Black-Scholes Tutorial: Understanding Time to Maturity (T)
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Explore the mathematical foundations of how time affects option pricing through interactive visualizations
             </p>
             
-            {/* Phase Navigation */}
-            <div className="flex items-center space-x-2 mt-4">
+            {/* Phase Navigation - Ma principles with generous spacing */}
+            <div className="flex items-center space-x-3 mt-6">
               {phases.map((phase, index) => (
                 <div key={index} className="flex items-center">
                   <Button
                     variant={currentPhase === index ? "default" : "outline"}
                     onClick={() => setCurrentPhase(index)}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-3 px-4 py-2.5 min-h-[44px]"
                     size="sm"
                   >
                     {phase.icon}
                     Phase {index + 1}
                   </Button>
-                  {index < phases.length - 1 && <IconChevronRight className="w-4 h-4 text-gray-400 mx-1" />}
+                  {index < phases.length - 1 && <IconChevronRight className="w-5 h-5 text-gray-400 mx-2" />}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Content Area - Always in Viewport */}
-          <div className="flex-1 overflow-y-auto p-6">
+          {/* Content Area - Ma principles with generous spacing */}
+          <div className="flex-1 overflow-y-auto p-8">
             <Card className="shadow-xl h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
+              <CardHeader className="pb-6">
+                <CardTitle className="flex items-center gap-4 text-2xl mb-2">
                   {phases[currentPhase].icon}
                   {phases[currentPhase].title}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="h-full overflow-y-auto">
-                {phases[currentPhase].content}
+              <CardContent className="h-full overflow-y-auto pt-0">
+                <div className="space-y-8">
+                  {phases[currentPhase].content}
+                </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Navigation Footer */}
-          <div className="bg-white border-t border-gray-200 p-4">
-            <div className="flex justify-between">
+          {/* Navigation Footer - Ma principles with generous spacing */}
+          <div className="bg-white border-t border-gray-200 p-6">
+            <div className="flex justify-between items-center">
               <Button
                 variant="outline"
                 onClick={() => setCurrentPhase(Math.max(0, currentPhase - 1))}
                 disabled={currentPhase === 0}
-                className="flex items-center gap-2"
+                className="flex items-center gap-3 px-6 py-3 min-h-[44px]"
+                size="lg"
               >
-                <IconChevronLeft className="w-4 h-4" />
+                <IconChevronLeft className="w-5 h-5" />
                 Previous Phase
               </Button>
               <Button
                 onClick={() => setCurrentPhase(Math.min(phases.length - 1, currentPhase + 1))}
                 disabled={currentPhase === phases.length - 1}
-                className="flex items-center gap-2"
+                className="flex items-center gap-3 px-6 py-3 min-h-[44px]"
+                size="lg"
               >
                 Next Phase
-                <IconChevronRight className="w-4 h-4" />
+                <IconChevronRight className="w-5 h-5" />
               </Button>
             </div>
           </div>
