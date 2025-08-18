@@ -44,18 +44,18 @@ function ChartContainer({
           // Recharts styling with Japanese-inspired colors and subtle aesthetics
           // Axis and grid styling with muted, natural colors
           "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground/80 " +
-          "[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/30 " +
-          "[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border/30 " +
+          "[&_.recharts-cartesian-grid_line]:stroke-border/30 " +
+          "[&_.recharts-polar-grid_line]:stroke-border/30 " +
           // Cursor and interaction styling
           "[&_.recharts-curve.recharts-tooltip-cursor]:stroke-border/60 " +
           "[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted/20 " +
           // Reference line styling
-          "[&_.recharts-reference-line_[stroke='#ccc']]:stroke-border/40 " +
+          "[&_.recharts-reference-line_line]:stroke-border/40 " +
           // Background and sector styling
           "[&_.recharts-radial-bar-background-sector]:fill-muted/30 " +
           // Dot and stroke styling for clean appearance
-          "[&_.recharts-dot[stroke='#fff']]:stroke-transparent " +
-          "[&_.recharts-sector[stroke='#fff']]:stroke-transparent " +
+          "[&_.recharts-dot]:stroke-transparent " +
+          "[&_.recharts-sector]:stroke-transparent " +
           // Focus and outline management
           "[&_.recharts-layer]:outline-hidden " +
           "[&_.recharts-sector]:outline-hidden " +
@@ -236,7 +236,7 @@ function ChartTooltipContent({
                           {
                             "h-2.5 w-2.5": indicator === "dot",
                             "w-1 h-4": indicator === "line",
-                            "w-0 border-[1.5px] border-dashed bg-transparent h-4":
+                            "w-0 border-2 border-dashed bg-transparent h-4":
                               indicator === "dashed",
                             "my-0.5": nestLabel && indicator === "dashed",
                           }

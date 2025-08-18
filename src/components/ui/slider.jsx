@@ -65,7 +65,7 @@ function Slider({
             // Base styling with Japanese aesthetics - subtle and refined
             "block shrink-0 rounded-full " +
             // Proper sizing - elegant but accessible (18px visible, 44px touch target)
-            "size-[18px] " +
+            "size-4.5 " +
             // Japanese-inspired styling - primary color instead of white background
             "bg-primary border-2 border-background " +
             // Soft shadow for depth without being overwhelming

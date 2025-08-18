@@ -20,8 +20,8 @@ export default {
           700: '#2D3748',
           800: '#1A202C',
           900: '#171923',
-          DEFAULT: '#2D3748',
-          foreground: '#F7FAFC',
+          DEFAULT: '#1A202C',
+          foreground: '#FFFFFF',
         },
         
         // Secondary colors - earth tones (hai-iro - ash gray)
@@ -52,7 +52,7 @@ export default {
           700: '#2C5282',
           800: '#2A4365',
           900: '#1A365D',
-          DEFAULT: '#2B77CB',
+          DEFAULT: '#1E293B',
           foreground: '#FFFFFF',
         },
         

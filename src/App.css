@@ -122,23 +122,23 @@
   --popover-foreground: #2D3748;           /* Popover text */
   
   /* Primary colors - Sumi (charcoal) inspired */
-  --primary: #2D3748;                       /* Deep charcoal */
-  --primary-foreground: #F7FAFC;           /* Light text on primary */
+  --primary: #1A202C;                       /* Darker charcoal for better contrast */
+  --primary-foreground: #FFFFFF;           /* Pure white text on primary */
   
   /* Secondary colors - Hai-iro (ash gray) inspired */
   --secondary: #E2E8F0;                     /* Soft gray */
-  --secondary-foreground: #2D3748;         /* Dark text on secondary */
+  --secondary-foreground: #1A202C;         /* Darker text for better contrast */
   
   /* Muted colors for subtle elements */
   --muted: #F4F4F5;                         /* Very light gray */
   --muted-foreground: #71717A;             /* Medium gray text */
   
   /* Accent colors - Ai-iro (indigo blue) inspired with better contrast */
-  --accent: #2B77CB;                        /* Darker blue for better contrast */
+  --accent: #1E293B;                        /* Very dark blue-gray for better contrast */
   --accent-foreground: #FFFFFF;            /* White text on accent */
   
   /* Semantic colors with improved contrast */
-  --destructive: #C53030;                   /* Darker red for better contrast */
+  --destructive: #450A0A;                   /* Very dark red for better contrast */
   --destructive-foreground: #FFFFFF;       /* White text on error */
   
   /* Border and input colors */
@@ -154,11 +154,11 @@
   --chart-5: #38B2AC;                       /* Mizu-iro (water blue) */
   
   /* Success and warning colors with improved contrast */
-  --success: #2F855A;                       /* Much darker green for better contrast */
+  --success: #052E16;                       /* Very dark green for better contrast */
   --success-foreground: #FFFFFF;           /* White text on success */
-  --warning: #C05621;                       /* Much darker orange for better contrast */
+  --warning: #451A03;                       /* Very dark orange for better contrast */
   --warning-foreground: #FFFFFF;           /* White text on warnings */
-  --info: #2B77CB;                          /* Darker blue for better contrast */
+  --info: #1E293B;                          /* Very dark blue-gray for better contrast */
   --info-foreground: #FFFFFF;              /* White text on info */
   
   /* Sidebar colors */
