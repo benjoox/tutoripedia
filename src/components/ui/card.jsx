@@ -10,7 +10,18 @@ function Card({
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        // Base styling with Japanese aesthetics
+        "bg-card text-card-foreground flex flex-col " +
+        // Ma (negative space) - generous spacing and breathing room
+        "gap-6 p-6 " +
+        // Shibui (subtle beauty) - refined borders and shadows
+        "rounded-xl border border-border/50 shadow-soft " +
+        // Gentle transitions for Seijaku (tranquility)
+        "transition-all duration-250 ease-gentle " +
+        // Hover state with subtle elevation
+        "hover:shadow-gentle hover:border-border/70 hover:-translate-y-0.5 " +
+        // Dark mode considerations
+        "dark:bg-card/50 dark:border-border/30 dark:hover:border-border/50",
         className
       )}
       {...props} />
@@ -25,7 +36,14 @@ function CardHeader({
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        // Container and grid layout
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start " +
+        // Ma (negative space) - generous spacing between elements
+        "gap-2 " +
+        // Action button layout
+        "has-data-[slot=card-action]:grid-cols-[1fr_auto] " +
+        // Border styling with Japanese aesthetics
+        "[.border-b]:pb-6 [.border-b]:border-border/30",
         className
       )}
       {...props} />
@@ -39,7 +57,15 @@ function CardTitle({
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn(
+        // Japanese typography hierarchy - clean and refined
+        "text-lg font-semibold leading-tight tracking-tight " +
+        // Subtle color for hierarchy
+        "text-foreground " +
+        // Smooth transitions
+        "transition-colors duration-250 ease-gentle",
+        className
+      )}
       {...props} />
   );
 }
@@ -51,7 +77,15 @@ function CardDescription({
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn(
+        // Japanese typography - subtle and readable
+        "text-sm text-muted-foreground leading-relaxed " +
+        // Ma (negative space) - breathing room
+        "mt-1 " +
+        // Smooth transitions
+        "transition-colors duration-250 ease-gentle",
+        className
+      )}
       {...props} />
   );
 }
@@ -75,7 +109,20 @@ function CardContent({
   className,
   ...props
 }) {
-  return (<div data-slot="card-content" className={cn("px-6", className)} {...props} />);
+  return (
+    <div 
+      data-slot="card-content" 
+      className={cn(
+        // Ma (negative space) - no horizontal padding since Card already has padding
+        // Vertical rhythm for content flow
+        "space-y-4 " +
+        // Typography improvements
+        "text-sm leading-relaxed",
+        className
+      )} 
+      {...props} 
+    />
+  );
 }
 
 function CardFooter({
@@ -85,7 +132,17 @@ function CardFooter({
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      className={cn(
+        // Layout and alignment
+        "flex items-center justify-between " +
+        // Ma (negative space) - generous spacing
+        "gap-4 " +
+        // Border styling with Japanese aesthetics
+        "[.border-t]:pt-6 [.border-t]:border-border/30 " +
+        // Ensure minimum touch targets for interactive elements
+        "[&_button]:min-h-[44px]",
+        className
+      )}
       {...props} />
   );
 }

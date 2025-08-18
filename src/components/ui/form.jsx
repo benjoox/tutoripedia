@@ -54,7 +54,17 @@ function FormItem({
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
+      <div 
+        data-slot="form-item" 
+        className={cn(
+          // Ma (negative space) - generous spacing between form elements
+          "grid gap-3 " +
+          // Ensure proper spacing for form flow
+          "mb-6 last:mb-0",
+          className
+        )} 
+        {...props} 
+      />
     </FormItemContext.Provider>
   );
 }
@@ -69,7 +79,13 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn(
+        // Error state with subtle Japanese styling
+        "data-[error=true]:text-destructive/80 " +
+        // Smooth transitions
+        "transition-colors duration-250 ease-gentle",
+        className
+      )}
       htmlFor={formItemId}
       {...props} />
   );
@@ -104,7 +120,15 @@ function FormDescription({
     <p
       data-slot="form-description"
       id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn(
+        // Japanese typography principles
+        "text-sm text-muted-foreground/80 leading-relaxed " +
+        // Ma (negative space) - subtle spacing
+        "mt-1 " +
+        // Smooth transitions
+        "transition-colors duration-250 ease-gentle",
+        className
+      )}
       {...props} />
   );
 }
@@ -124,7 +148,19 @@ function FormMessage({
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn(
+        // Error styling with Japanese aesthetics
+        "text-sm text-destructive/80 leading-relaxed " +
+        // Ma (negative space) - subtle spacing
+        "mt-1 " +
+        // Smooth transitions
+        "transition-colors duration-250 ease-gentle " +
+        // Subtle styling for better UX
+        "flex items-start gap-1.5 " +
+        // Icon space for potential error icons
+        "[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:mt-0.5",
+        className
+      )}
       {...props}>
       {body}
     </p>

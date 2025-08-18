@@ -5,27 +5,75 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  // Base styles with Japanese design principles
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 " +
+  // Shibui (subtle beauty) - gentle transitions and refined interactions
+  "transition-all duration-250 ease-gentle " +
+  // Ma (negative space) - generous spacing for breathing room
+  "min-h-[44px] min-w-[44px] " +
+  // Accessibility with Japanese-inspired focus states
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+  "focus-visible:ring-2 focus-visible:ring-ring/20 focus-visible:ring-offset-2 " +
+  // Error states with subtle styling
+  "aria-invalid:ring-2 aria-invalid:ring-destructive/20 aria-invalid:border-destructive/50",
   {
     variants: {
       variant: {
+        // Primary - Sumi (charcoal) inspired with soft shadows
         default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+          "bg-primary text-primary-foreground rounded-lg shadow-soft " +
+          "hover:bg-primary/90 hover:shadow-gentle hover:-translate-y-0.5 " +
+          "active:translate-y-0 active:shadow-xs " +
+          "dark:bg-primary dark:hover:bg-primary/80",
+        
+        // Destructive - refined error styling
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-destructive text-destructive-foreground rounded-lg shadow-soft " +
+          "hover:bg-destructive/90 hover:shadow-gentle hover:-translate-y-0.5 " +
+          "active:translate-y-0 active:shadow-xs " +
+          "focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/30",
+        
+        // Outline - Engawa (transitional spaces) with soft boundaries
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border border-border bg-background text-foreground rounded-lg shadow-xs " +
+          "hover:bg-accent/5 hover:border-accent/20 hover:shadow-soft " +
+          "hover:text-foreground hover:-translate-y-0.5 " +
+          "active:translate-y-0 active:bg-accent/10 active:text-foreground " +
+          "dark:bg-background/50 dark:border-border dark:hover:bg-accent/10 dark:hover:text-foreground",
+        
+        // Secondary - Hai-iro (ash gray) inspired
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground rounded-lg shadow-xs " +
+          "hover:bg-secondary/80 hover:shadow-soft hover:-translate-y-0.5 " +
+          "active:translate-y-0 active:shadow-xs " +
+          "dark:bg-secondary/20 dark:hover:bg-secondary/30",
+        
+        // Ghost - minimal with Kanso (simplicity) principles
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          "text-foreground rounded-lg hover:bg-accent/10 hover:text-foreground " +
+          "hover:shadow-xs hover:-translate-y-0.5 " +
+          "active:translate-y-0 active:bg-accent/15 active:text-foreground " +
+          "dark:hover:bg-accent/10 dark:hover:text-foreground",
+        
+        // Link - understated with subtle interactions
+        link: 
+          "text-accent underline-offset-4 rounded-sm " +
+          "hover:underline hover:text-accent/80 " +
+          "focus-visible:underline focus-visible:bg-accent/5 " +
+          "active:text-accent/70",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9",
+        // Default size with Ma (negative space) principles
+        default: "h-10 px-6 py-2.5 text-sm has-[>svg]:px-4",
+        
+        // Small size maintaining minimum touch targets
+        sm: "h-9 px-4 py-2 text-sm rounded-md gap-1.5 has-[>svg]:px-3",
+        
+        // Large size with generous spacing
+        lg: "h-12 px-8 py-3 text-base rounded-xl has-[>svg]:px-6",
+        
+        // Icon size ensuring 44px minimum for accessibility
+        icon: "size-10 rounded-lg",
       },
     },
     defaultVariants: {
