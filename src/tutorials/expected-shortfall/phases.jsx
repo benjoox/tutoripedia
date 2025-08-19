@@ -1,6 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { AreaChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { IconBook, IconInfoCircle } from '@tabler/icons-react'
+import { 
+  AreaChart, 
+  Area, 
+  LineChart,
+  Line, 
+  BarChart,
+  Bar,
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  ReferenceLine 
+} from 'recharts'
+import { IconInfoCircle } from '@tabler/icons-react'
 
 /**
  * Phase 1: Introduction to Value at Risk (VaR)
@@ -59,10 +73,6 @@ export const IntroductionPhase = ({ tutorialHook }) => {
     </div>
   )
 }
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { IconTrendingUp } from '@tabler/icons-react'
-
 /**
  * Phase 2: Defining and Visualizing Expected Shortfall
  */
@@ -115,10 +125,6 @@ export const ExpectedShortfallPhase = ({ tutorialHook }) => {
     </div>
   )
 }
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
-import { IconCalculator } from '@tabler/icons-react'
-
 /**
  * Phase 3: VaR vs. ES: A Direct Comparison
  */
@@ -168,10 +174,6 @@ export const ComparisonPhase = ({ tutorialHook }) => {
     </div>
   )
 }
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { IconInfoCircle } from '@tabler/icons-react'
-
 /**
  * Phase 4: Why Expected Shortfall is a "Coherent" Risk Measure
  */
@@ -218,7 +220,7 @@ export const CoherencePhase = ({ tutorialHook }) => {
             
             <div className="bg-muted p-6 rounded-wabi-card wabi-sabi-texture">
               <p className="text-sm leading-relaxed mb-4 text-foreground">
-                <strong>Key Insight:</strong> In this example, the VaR of the combined portfolio is greater than the sum of the individual VaRs (VaR(A+B) > VaR(A) + VaR(B)), violating subadditivity and incorrectly penalizing diversification. However, the Expected Shortfall of the combined portfolio is less than the sum of the individual ES values (ES(A+B) <= ES(A) + ES(B)), correctly reflecting the benefits of diversification.
+                <strong>Key Insight:</strong> In this example, the VaR of the combined portfolio is greater than the sum of the individual VaRs (VaR(A+B) &gt; VaR(A) + VaR(B)), violating subadditivity and incorrectly penalizing diversification. However, the Expected Shortfall of the combined portfolio is less than the sum of the individual ES values (ES(A+B) &lt;= ES(A) + ES(B)), correctly reflecting the benefits of diversification.
               </p>
               <p className="text-sm leading-relaxed text-muted-foreground">
                 <strong>Practical Implication:</strong> Because ES is a coherent risk measure, it provides a more robust and reliable foundation for risk management and portfolio construction decisions, especially when dealing with complex financial instruments.
