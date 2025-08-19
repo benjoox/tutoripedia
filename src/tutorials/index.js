@@ -8,6 +8,7 @@
 import { blackScholesTimeTutorial, validateTutorial } from './black-scholes-time/index.jsx'
 import { kellyCriterionTutorial } from './kelly-criterion/index.jsx'
 import { expectedShortfallTutorial } from './expected-shortfall/index.jsx'
+import { fastFourierTransformTutorial } from './fast-fourier-transform/index.jsx'
 
 // Internal tutorial storage
 const tutorials = new Map()
@@ -383,6 +384,9 @@ export const initializeRegistry = () => {
     
     // Register the Expected Shortfall tutorial
     registerTutorial(expectedShortfallTutorial)
+    
+    // Register the Fast Fourier Transform tutorial
+    registerTutorial(fastFourierTransformTutorial)
     
     console.log('Tutorial registry initialized successfully')
     console.log('Registry stats:', getRegistryStats())
