@@ -1,24 +1,24 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
 /**
  * Progress indicator component
  */
 function ProgressIndicator({ currentPhase, totalPhases }) {
   const progress = ((currentPhase + 1) / totalPhases) * 100;
-  
+
   return (
     <div className="flex flex-col items-center space-y-2">
       {/* Progress bar */}
       <div className="w-full max-w-xs bg-muted rounded-full h-2">
-        <div 
+        <div
           className="bg-primary h-2 rounded-full transition-all duration-300 ease-in-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      
+
       {/* Progress text */}
       <span className="text-sm text-muted-foreground">
         Phase {currentPhase + 1} of {totalPhases}
@@ -30,16 +30,16 @@ function ProgressIndicator({ currentPhase, totalPhases }) {
 /**
  * Navigation button component
  */
-function NavigationButton({ 
-  direction, 
-  onClick, 
-  disabled, 
-  phaseTitle, 
-  className 
+function NavigationButton({
+  direction,
+  onClick,
+  disabled,
+  phaseTitle,
+  className
 }) {
   const isNext = direction === 'next';
-  const Icon = isNext ? ChevronRight : ChevronLeft;
-  
+  const Icon = isNext ? IconChevronRight : IconChevronLeft;
+
   return (
     <Button
       variant="outline"
@@ -77,14 +77,14 @@ function NavigationButton({
  * @param {boolean} [props.showProgress] - Whether to show progress indicator
  * @param {string} [props.className] - Additional CSS classes
  */
-function Footer({ 
-  phases = [], 
-  currentPhase = 0, 
+function Footer({
+  phases = [],
+  currentPhase = 0,
   onPhaseChange,
   onPrevious,
   onNext,
   showProgress = true,
-  className 
+  className
 }) {
   if (!phases.length) {
     return null;
@@ -92,7 +92,7 @@ function Footer({
 
   const isFirstPhase = currentPhase === 0;
   const isLastPhase = currentPhase === phases.length - 1;
-  
+
   const previousPhase = !isFirstPhase ? phases[currentPhase - 1] : null;
   const nextPhase = !isLastPhase ? phases[currentPhase + 1] : null;
 
@@ -116,7 +116,7 @@ function Footer({
     <footer className={cn(
       // Base styles
       "w-full bg-background/95 backdrop-blur-sm border-t border-border/50",
-      "transition-all duration-300 ease-in-out",
+      "transition-all duration-300 ease-in-out flex-shrink-0",
       className
     )}>
       <div className="container mx-auto px-4 py-6">
@@ -130,7 +130,7 @@ function Footer({
               phaseTitle={previousPhase?.title}
             />
           </div>
-          
+
           {/* Progress indicator */}
           {showProgress && (
             <div className="flex-1 flex justify-center">
@@ -140,7 +140,7 @@ function Footer({
               />
             </div>
           )}
-          
+
           {/* Next button */}
           <div className="flex-1 flex justify-end">
             <NavigationButton
@@ -151,7 +151,7 @@ function Footer({
             />
           </div>
         </div>
-        
+
         {/* Mobile layout - stacked */}
         <div className="md:hidden mt-4 space-y-4">
           {showProgress && (
@@ -162,7 +162,7 @@ function Footer({
               />
             </div>
           )}
-          
+
           <div className="flex justify-between gap-4">
             <NavigationButton
               direction="previous"
@@ -171,7 +171,7 @@ function Footer({
               phaseTitle={previousPhase?.title}
               className="flex-1"
             />
-            
+
             <NavigationButton
               direction="next"
               onClick={handleNext}

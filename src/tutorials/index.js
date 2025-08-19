@@ -6,6 +6,7 @@
  */
 
 import { blackScholesTimeTutorial, validateTutorial } from './black-scholes-time/index.jsx'
+import { kellyCriterionTutorial } from './kelly-criterion/index.jsx'
 
 // Internal tutorial storage
 const tutorials = new Map()
@@ -375,6 +376,9 @@ export const initializeRegistry = () => {
   try {
     // Register the Black-Scholes tutorial
     registerTutorial(blackScholesTimeTutorial)
+    
+    // Register the Kelly Criterion tutorial
+    registerTutorial(kellyCriterionTutorial)
     
     console.log('Tutorial registry initialized successfully')
     console.log('Registry stats:', getRegistryStats())

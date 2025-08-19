@@ -280,17 +280,14 @@ function Sidebar({
         ref={sidebarRef}
         className={cn(
           // Base styles
-          "bg-background border-r border-border/50",
-          // Desktop: fixed sidebar
-          "lg:fixed lg:left-0 lg:top-0 lg:h-full lg:w-80 lg:translate-x-0 lg:shadow-none",
-          // Mobile: drawer behavior with enhanced animations
-          "fixed left-0 top-0 h-full w-80 z-50 lg:z-auto",
-          "transition-all duration-300 ease-out",
-          "shadow-2xl lg:shadow-none",
+          "bg-background h-full",
+          // Desktop: normal flow sidebar (no border since parent handles it)
+          "lg:relative lg:w-full lg:shadow-none lg:z-auto lg:border-r-0",
+          // Mobile: fixed drawer behavior with enhanced animations
+          isMobile && "fixed left-0 top-0 w-80 z-50 shadow-2xl border-r border-border/50",
+          isMobile && "transition-all duration-300 ease-out",
           // Mobile transform states
-          isMobile ? (
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          ) : "translate-x-0",
+          isMobile && (isOpen ? "translate-x-0" : "-translate-x-full"),
           // Dragging state
           isDragging && "transition-none",
           className
@@ -300,36 +297,36 @@ function Sidebar({
         aria-modal={isMobile ? isOpen : undefined}
       >
         <div className="h-full flex flex-col">
-          {/* Header */}
-          <div className="p-4 lg:p-6 border-b border-border/50">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Parameters</h2>
-              {/* Close button for mobile */}
-              {isMobile && onClose && (
-                <button
-                  onClick={onClose}
-                  className={cn(
-                    "p-2 hover:bg-accent/10 rounded-md transition-colors",
-                    "touch-manipulation", // Better touch handling
-                    "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  )}
-                  aria-label="Close parameters panel"
-                  type="button"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-            
-            {/* Drag indicator for mobile */}
-            {isMobile && (
+          {/* Header - only show on mobile or when not in desktop layout */}
+          {isMobile && (
+            <div className="p-4 border-b border-border/50 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Parameters</h2>
+                {/* Close button for mobile */}
+                {onClose && (
+                  <button
+                    onClick={onClose}
+                    className={cn(
+                      "p-2 hover:bg-accent/10 rounded-md transition-colors",
+                      "touch-manipulation", // Better touch handling
+                      "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    )}
+                    aria-label="Close parameters panel"
+                    type="button"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              
+              {/* Drag indicator for mobile */}
               <div className="flex justify-center mt-2">
                 <div className="w-8 h-1 bg-muted-foreground/30 rounded-full" />
               </div>
-            )}
-          </div>
+            </div>
+          )}
           
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto overscroll-contain">

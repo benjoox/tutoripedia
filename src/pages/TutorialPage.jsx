@@ -96,6 +96,175 @@ function TutorialError({ error, onRetry, onGoHome }) {
 }
 
 /**
+ * Tutorial content wrapper that handles the tutorial hook
+ */
+function TutorialContent({ tutorial, currentPhaseIndex, onPhaseChange, onParameterChange, sidebarOpen, onSidebarToggle, onSidebarClose }) {
+  // Get initial parameters
+  const initialParameters = useMemo(() => {
+    const params = {}
+    if (tutorial.parameters) {
+      tutorial.parameters.forEach(param => {
+        params[param.key] = param.defaultValue || param.min || 0
+      })
+    }
+    return params
+  }, [tutorial.parameters])
+
+  // Use the tutorial hook
+  const tutorialHookData = tutorial.hook ? tutorial.hook(initialParameters) : null
+  const parameterValues = tutorialHookData?.parameters || {}
+  const calculations = tutorialHookData?.calculations || {}
+
+  // Handle parameter changes
+  const handleParameterChange = useCallback((key, value) => {
+    if (tutorialHookData?.updateParameter) {
+      tutorialHookData.updateParameter(key, value)
+    }
+    onParameterChange?.(key, value)
+  }, [tutorialHookData, onParameterChange])
+
+  const currentPhase = tutorial.phases?.[currentPhaseIndex] || null
+
+  return (
+    <>
+      {/* Main Content Layout - Takes remaining space with proper height constraints */}
+      <div className="flex flex-1 min-h-0 max-h-full">
+        {/* Sidebar - Independently scrollable */}
+        {tutorial.parameters && tutorial.parameters.length > 0 && (
+          <div className="hidden lg:flex lg:flex-col w-80 flex-shrink-0 border-r border-border/50 bg-background">
+            {/* Sidebar Header - Fixed */}
+            <div className="flex-shrink-0 p-4 border-b border-border/50">
+              <h2 className="text-lg font-semibold">Parameters</h2>
+            </div>
+            
+            {/* Sidebar Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto">
+              <Sidebar
+                parameters={tutorial.parameters}
+                values={parameterValues}
+                onChange={handleParameterChange}
+                calculations={calculations}
+                isOpen={sidebarOpen}
+                onClose={onSidebarClose}
+                id="tutorial-sidebar"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Sidebar - Fixed positioned */}
+        {tutorial.parameters && tutorial.parameters.length > 0 && (
+          <div className="lg:hidden">
+            <Sidebar
+              parameters={tutorial.parameters}
+              values={parameterValues}
+              onChange={handleParameterChange}
+              calculations={calculations}
+              isOpen={sidebarOpen}
+              onClose={onSidebarClose}
+              id="tutorial-sidebar"
+            />
+          </div>
+        )}
+
+        {/* Main Content Area - Independently scrollable */}
+        <main className="flex-1 flex flex-col min-h-0 max-h-full">
+          {/* Mobile sidebar toggle - Fixed */}
+          {tutorial.parameters && tutorial.parameters.length > 0 && (
+            <div className="lg:hidden p-4 border-b border-border/50 flex-shrink-0 bg-background">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSidebarToggle}
+                className={cn(
+                  "flex items-center gap-2 transition-all duration-200",
+                  "touch-manipulation h-12 px-4",
+                  "hover:bg-accent/10 active:scale-95"
+                )}
+                aria-expanded={sidebarOpen}
+                aria-controls="tutorial-sidebar"
+              >
+                <IconMenu2 className="w-4 h-4" />
+                Parameters
+                {sidebarOpen && (
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    Tap to close
+                  </span>
+                )}
+              </Button>
+            </div>
+          )}
+
+          {/* Phase Content - Independently scrollable */}
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="p-6 lg:p-8">
+              {currentPhase ? (
+                <div className="max-w-4xl mx-auto">
+                  <div className="mb-8">
+                    <h1 className="text-3xl font-bold text-foreground mb-4">
+                      {currentPhase.title}
+                    </h1>
+                    {currentPhase.description && (
+                      <p className="text-lg text-muted-foreground leading-relaxed">
+                        {currentPhase.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Phase Component */}
+                  {currentPhase.content ? (
+                    <currentPhase.content
+                      tutorialHook={() => tutorialHookData || {
+                        parameters: {},
+                        calculations: {},
+                        chartData: {}
+                      }}
+                      onParameterChange={handleParameterChange}
+                    />
+                  ) : (
+                    <Alert>
+                      <IconAlertCircle className="h-4 w-4" />
+                      <AlertDescription>
+                        This phase is under development. The interactive content will be available soon.
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </div>
+              ) : (
+                <div className="max-w-4xl mx-auto text-center py-16">
+                  <h1 className="text-3xl font-bold text-foreground mb-4">
+                    {tutorial.title}
+                  </h1>
+                  <p className="text-lg text-muted-foreground mb-8">
+                    {tutorial.description}
+                  </p>
+                  <Alert>
+                    <IconAlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      No phases are available for this tutorial yet.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* Footer - Fixed at bottom */}
+      {tutorial.phases && tutorial.phases.length > 1 && (
+        <Footer
+          phases={tutorial.phases}
+          currentPhase={currentPhaseIndex}
+          onPhaseChange={onPhaseChange}
+          showProgress={true}
+        />
+      )}
+    </>
+  )
+}
+
+/**
  * Main TutorialPage component
  */
 function TutorialPage() {
@@ -107,8 +276,6 @@ function TutorialPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
-  const [parameterValues, setParameterValues] = useState({})
-  const [calculations, setCalculations] = useState({})
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Load tutorial data
@@ -127,14 +294,7 @@ function TutorialPage() {
         
         setTutorial(tutorialData)
         
-        // Initialize parameter values with defaults
-        const initialValues = {}
-        if (tutorialData.parameters) {
-          tutorialData.parameters.forEach(param => {
-            initialValues[param.key] = param.defaultValue || param.min || 0
-          })
-        }
-        setParameterValues(initialValues)
+        // Tutorial loaded successfully
         
         // Set initial phase
         if (phaseId && tutorialData.phases) {
@@ -170,19 +330,7 @@ function TutorialPage() {
     }
   }, [tutorial, currentPhaseIndex, tutorialId, navigate])
 
-  // Calculate derived values when parameters change
-  useEffect(() => {
-    if (tutorial && tutorial.calculations && parameterValues) {
-      try {
-        // Run tutorial calculations with current parameter values
-        const results = tutorial.calculations(parameterValues)
-        setCalculations(results || {})
-      } catch (err) {
-        console.error('Error calculating values:', err)
-        setCalculations({})
-      }
-    }
-  }, [tutorial, parameterValues])
+
 
   // Memoized values
   const currentPhase = useMemo(() => {
@@ -212,10 +360,7 @@ function TutorialPage() {
   }, [tutorial])
 
   const handleParameterChange = useCallback((key, value) => {
-    setParameterValues(prev => ({
-      ...prev,
-      [key]: value
-    }))
+    // This will be handled by the TutorialContent component
   }, [])
 
   const handleSidebarToggle = useCallback(() => {
@@ -260,131 +405,40 @@ function TutorialPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <Header
-        title={headerTitle}
-        subtitle={headerSubtitle}
-        onBackClick={handleBackToHome}
-      />
-
-      {/* Phase Navigation */}
-      {tutorial.phases && tutorial.phases.length > 1 && (
-        <PhaseNavigation
-          phases={tutorial.phases}
-          currentPhase={currentPhaseIndex}
-          onPhaseChange={handlePhaseChange}
-          isSticky={true}
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      {/* Header - Fixed height */}
+      <div className="flex-shrink-0">
+        <Header
+          title={headerTitle}
+          subtitle={headerSubtitle}
+          onBackClick={handleBackToHome}
         />
-      )}
-
-      {/* Main Content Layout */}
-      <div className="flex min-h-0">
-        {/* Sidebar */}
-        {tutorial.parameters && tutorial.parameters.length > 0 && (
-          <Sidebar
-            parameters={tutorial.parameters}
-            values={parameterValues}
-            onChange={handleParameterChange}
-            calculations={calculations}
-            isOpen={sidebarOpen}
-            onClose={handleSidebarClose}
-            id="tutorial-sidebar"
-          />
-        )}
-
-        {/* Main Content Area */}
-        <main className={cn(
-          "flex-1 min-h-0",
-          // Add left margin for sidebar on desktop when sidebar exists
-          tutorial.parameters?.length > 0 && "lg:ml-80"
-        )}>
-          {/* Mobile sidebar toggle */}
-          {tutorial.parameters && tutorial.parameters.length > 0 && (
-            <div className="lg:hidden p-4 border-b border-border/50">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSidebarToggle}
-                className={cn(
-                  "flex items-center gap-2 transition-all duration-200",
-                  "touch-manipulation h-12 px-4",
-                  "hover:bg-accent/10 active:scale-95"
-                )}
-                aria-expanded={sidebarOpen}
-                aria-controls="tutorial-sidebar"
-              >
-                <IconMenu2 className="w-4 h-4" />
-                Parameters
-                {sidebarOpen && (
-                  <span className="ml-auto text-xs text-muted-foreground">
-                    Tap to close
-                  </span>
-                )}
-              </Button>
-            </div>
-          )}
-
-          {/* Phase Content */}
-          <div className="p-6 lg:p-8">
-            {currentPhase ? (
-              <div className="max-w-4xl mx-auto">
-                <div className="mb-8">
-                  <h1 className="text-3xl font-bold text-foreground mb-4">
-                    {currentPhase.title}
-                  </h1>
-                  {currentPhase.description && (
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                      {currentPhase.description}
-                    </p>
-                  )}
-                </div>
-
-                {/* Phase Component */}
-                {currentPhase.component ? (
-                  <currentPhase.component
-                    parameters={parameterValues}
-                    calculations={calculations}
-                    onParameterChange={handleParameterChange}
-                  />
-                ) : (
-                  <Alert>
-                    <IconAlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      This phase is under development. The interactive content will be available soon.
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </div>
-            ) : (
-              <div className="max-w-4xl mx-auto text-center py-16">
-                <h1 className="text-3xl font-bold text-foreground mb-4">
-                  {tutorial.title}
-                </h1>
-                <p className="text-lg text-muted-foreground mb-8">
-                  {tutorial.description}
-                </p>
-                <Alert>
-                  <IconAlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    No phases are available for this tutorial yet.
-                  </AlertDescription>
-                </Alert>
-              </div>
-            )}
-          </div>
-        </main>
       </div>
 
-      {/* Footer */}
+      {/* Phase Navigation - Fixed height */}
       {tutorial.phases && tutorial.phases.length > 1 && (
-        <Footer
-          phases={tutorial.phases}
-          currentPhase={currentPhaseIndex}
-          onPhaseChange={handlePhaseChange}
-          showProgress={true}
-        />
+        <div className="flex-shrink-0">
+          <PhaseNavigation
+            phases={tutorial.phases}
+            currentPhase={currentPhaseIndex}
+            onPhaseChange={handlePhaseChange}
+            isSticky={false}
+          />
+        </div>
       )}
+
+      {/* Tutorial Content - Takes remaining space */}
+      <div className="flex-1 min-h-0">
+        <TutorialContent
+          tutorial={tutorial}
+          currentPhaseIndex={currentPhaseIndex}
+          onPhaseChange={handlePhaseChange}
+          onParameterChange={handleParameterChange}
+          sidebarOpen={sidebarOpen}
+          onSidebarToggle={handleSidebarToggle}
+          onSidebarClose={handleSidebarClose}
+        />
+      </div>
     </div>
   )
 }
