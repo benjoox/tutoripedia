@@ -11,6 +11,7 @@ import { expectedShortfallTutorial } from './expected-shortfall/index.jsx'
 import { fastFourierTransformTutorial } from './fast-fourier-transform/index.jsx'
 import { hurstExponentTutorial } from './hurst-exponent/index.jsx'
 import { fftFinanceTutorial } from './fast-fourier-transform-finance/index.jsx'
+import { vwapTutorial } from './vwap/index.jsx'
 
 // Internal tutorial storage
 const tutorials = new Map()
@@ -395,6 +396,9 @@ export const initializeRegistry = () => {
     
     // Register the FFT Finance tutorial
     registerTutorial(fftFinanceTutorial)
+    
+    // Register the VWAP tutorial
+    registerTutorial(vwapTutorial)
     
     console.log('Tutorial registry initialized successfully')
     console.log('Registry stats:', getRegistryStats())
