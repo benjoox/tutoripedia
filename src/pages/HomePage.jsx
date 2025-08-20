@@ -4,17 +4,17 @@ import { TutorialCard, TutorialCardGrid } from '@/components/tutorial/TutorialCa
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { 
-  IconSearch, 
-  IconFilter, 
-  IconSortAscending, 
+import {
+  IconSearch,
+  IconFilter,
+  IconSortAscending,
   IconSortDescending,
   IconX,
   IconBook,
@@ -32,7 +32,7 @@ import { cn } from '@/lib/utils'
  */
 function HomePage() {
   const navigate = useNavigate()
-  
+
   // State for search and filtering
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
@@ -58,7 +58,7 @@ function HomePage() {
   const { availableTopics, availableDifficulties } = useMemo(() => {
     const topics = new Set()
     const difficulties = new Set()
-    
+
     allTutorials.forEach(tutorial => {
       if (tutorial.topics) {
         tutorial.topics.forEach(topic => topics.add(topic))
@@ -67,7 +67,7 @@ function HomePage() {
         difficulties.add(tutorial.difficulty)
       }
     })
-    
+
     return {
       availableTopics: Array.from(topics).sort(),
       availableDifficulties: Array.from(difficulties).sort()
@@ -90,7 +90,7 @@ function HomePage() {
 
     // Apply topic filter
     if (selectedTopic !== 'all') {
-      tutorials = tutorials.filter(tutorial => 
+      tutorials = tutorials.filter(tutorial =>
         tutorial.topics && tutorial.topics.includes(selectedTopic)
       )
     }
@@ -140,7 +140,7 @@ function HomePage() {
               Explore complex financial concepts through interactive visualizations and hands-on learning experiences.
               Master quantitative finance with step-by-step guided tutorials.
             </p>
-            
+
             {/* Quick Stats */}
             <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-400">
               <div className="flex items-center gap-2">
@@ -294,7 +294,7 @@ function HomePage() {
 
         {/* Tutorial Grid */}
         {filteredTutorials.length > 0 ? (
-          <TutorialCardGrid 
+          <TutorialCardGrid
             className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-800"
             columns="auto"
             gap="default"
@@ -323,7 +323,7 @@ function HomePage() {
                 No tutorials found
               </h3>
               <p className="text-muted-foreground mb-6">
-                {hasActiveFilters 
+                {hasActiveFilters
                   ? "Try adjusting your search criteria or clearing the filters."
                   : "No tutorials are currently available."
                 }
